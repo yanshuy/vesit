@@ -146,7 +146,7 @@ const parkingSpots = [
 
 const ParkingSpotList: React.FC = () => {
   return (
-    <div>
+    <div className="p-6">
       <h2 className="text-3xl font-bold text-secondary-800 mb-8">
         Popular Parking Spots
       </h2>

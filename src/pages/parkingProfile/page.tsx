@@ -218,13 +218,60 @@ const ParkingSpotProfile = () => {
             <h2 className="text-xl font-semibold mb-4">Description</h2>
             <p className="text-gray-600 leading-relaxed">{spot.description}</p>
           </div>
+          <div className="max-md:block hidden mb-8">
+            <div className="sticky top-8 bg-white rounded-2xl shadow p-6">
+              <h3 className="text-xl font-bold mb-6">Reserve your spot</h3>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium mb-2">Date</label>
+                  <div className="relative">
+                    <input
+                      type="date"
+                      className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-primary-500"
+                    />
+                    <Calendar className="w-5 h-5 text-gray-400 absolute right-3 top-3.5" />
+                  </div>
+                </div>
 
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium mb-2">
+                      Start time
+                    </label>
+                    <input
+                      type="time"
+                      className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-primary-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium mb-2">
+                      End time
+                    </label>
+                    <input
+                      type="time"
+                      className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-primary-500"
+                    />
+                  </div>
+                </div>
+
+                <div className="pt-4">
+                  <button className="w-full bg-primary-600 hover:bg-primary-700 text-white py-4 rounded-xl font-semibold transition-colors">
+                    Reserve now - {spot.price}
+                  </button>
+                </div>
+
+                <p className="text-center text-sm text-gray-500 mt-4">
+                  Free cancellation up to 24h before arrival
+                </p>
+              </div>
+            </div>
+          </div>
           {/* Reviews Section */}
           <ReviewSection spotId={spot.id} />
         </div>
 
         {/* Booking Sidebar */}
-        <div className="lg:col-span-1">
+        <div className="lg:col-span-1 max-md:hidden">
           <div className="sticky top-8 bg-white rounded-2xl shadow-lg p-6">
             <h3 className="text-xl font-bold mb-6">Reserve your spot</h3>
             <div className="space-y-4">

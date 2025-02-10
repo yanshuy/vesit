@@ -3,7 +3,7 @@ import MainLayout from "./layouts/MainLayout";
 import EventPage from "./pages/events/page";
 import CalendarPage from "./pages/calendar/page";
 import ParkingSpotList from "./pages/parkingSpot/page";
-import ParkingSpotProfile from "./pages/parkingSpot/ParkingProfile";
+import ParkingSpotProfile from "./pages/parkingProfile/page";
 
 function App() {
   return (
