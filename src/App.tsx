@@ -8,6 +8,8 @@ import ParkingSpotProfile from "./pages/parkingProfile/page";
 export const BASE_URL = "https://natural-ape-severely.ngrok-free.app";
 import AuthForm from "./pages/auth-form/auth-form";
 import { AuthProvider } from "./lib/auth";
+import ParkingSpotSearch from "./pages/search-parking-spot/ParkingSpotSearch";
+import DemoPage from "./pages/demo-page/DemoPage";
 
 function App() {
     return (
@@ -24,6 +26,14 @@ function App() {
                     <Route
                         path="parking-spots/:id"
                         element={<ParkingSpotProfile />}
+                    />
+                    <Route
+                        path="searchparkingspot"
+                        element={<ParkingSpotSearch/>}
+                    />
+                    <Route
+                        path="demopage"
+                        element={<DemoPage/>}
                     />
                     <Route path="*" element={<h1>Not Found</h1>} />
                 </Route>
