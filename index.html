@@ -1,13 +1,32 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React + TS</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+    <head>
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <meta name="description" content="My Awesome App description" />
+        <link rel="icon" type="image/png" href="/public/pwa-64x64.png" />
+        <link
+            rel="apple-touch-icon"
+            href="public/apple-touch-icon-180x180.png"
+            sizes="180x180"
+        />
+        <link
+            rel="mask-icon"
+            href="/maskable-icon-512x512.png"
+            color="#FFFFFF"
+        />
+        <meta name="theme-color" content="#ffffff" />
+        <meta content="yes" name="apple-mobile-web-app-capable" />
+        <meta content="yes" name="mobile-web-app-capable" />
+        <link
+            rel="stylesheet"
+            href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+            integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+            crossorigin=""
+        />
+        <title>Smapa</title>
+    </head>
+    <body>
+        <div id="root"></div>
+        <script type="module" src="/src/main.tsx"></script>
+    </body>
 </html>

@@ -33,8 +33,9 @@ function App() {
                 <Route path="/" element={<MainLayout />}>
                     <Route path="events/:id" element={<EventPage />} />
                     <Route path="calendar" element={<CalendarPage />} />
-                    <Route path="parking-spots" element={<ParkingSpotList />} />
+                    <Route index element={<ParkingSpotList />} />
                     <Route
+                        // index
                         path="parking-spots/:id"
                         element={<ParkingSpotProfile />}
                     />
