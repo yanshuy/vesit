@@ -37,14 +37,15 @@ export default function AuthForm() {
     setError("")
     const formData = new FormData(event.currentTarget)
     const username = formData.get("reg-username") as string
+    const email = formData.get("reg-email") as string
     const password = formData.get("reg-password") as string
     const phone = formData.get("phone") as string
     const vehiclePlate = formData.get("vehicle-plate") as string
     const vehicleModel = formData.get("vehicle-model") as string
 
     try {
-      await register(username, password, phone, vehiclePlate, vehicleModel)
-      router("/calendar") // Redirect to dashboard after successful registration
+      await register(username, email, password, phone, vehiclePlate, vehicleModel)
+      router("/calendar") 
     } catch (err) {
       setError("Registration failed. Please try again.")
     }
@@ -91,6 +92,10 @@ export default function AuthForm() {
               <div className="space-y-2">
                 <Label htmlFor="reg-username">Username</Label>
                 <Input id="reg-username" name="reg-username" placeholder="Choose a username" required />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="reg-email">Email</Label>
+                <Input id="reg-email" name="reg-email" type="email" placeholder="Enter your email" required />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="reg-password">Password</Label>

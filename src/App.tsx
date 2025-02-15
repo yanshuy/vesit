@@ -9,9 +9,9 @@ import AuthForm from "./pages/auth-form/auth-form";
 import { AuthProvider } from "./lib/auth";
 import ParkingModel from "./pages/ParkingModel/page";
 import Payment from "./FastBooking/Payments/page";
+import GoogleCalendarIntegration from "./components/GoogleCalendarIntegration";
 import ParkingSpotSearch from "./pages/search-parking-spot/ParkingSpotSearch";
 import DemoPage from "./pages/demo-page/DemoPage";
-import EmbeddedModelModal from "./components/3DParkingModal";
 import Home from "./pages/Home";
 
 
@@ -29,7 +29,7 @@ function App() {
                         </AuthProvider>
                     }
                 />
-                <Route path="pp" element={<ParkingModel />}></Route>
+                <Route path="pp" element={<ParkingModel />}></Route><Route path="gcal" element={<GoogleCalendarIntegration/>} /> 
                 <Route path="pay" element={<Payment />} />
                 <Route path="/" element={<MainLayout />}>
                     <Route path="events/:id" element={<EventPage />} />
