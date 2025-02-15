@@ -41,7 +41,7 @@ const MyPaymentOptions = () => {
               </div>
               <div className="border-t border-gray-200 mt-2 pt-2 flex justify-between">
                 <span className="font-medium">Total</span>
-                <span className="font-bold text-purple-600">₹118</span>
+                <span className="font-bold text-violet-600">₹118</span>
               </div>
             </div>
           </div>
@@ -54,13 +54,13 @@ const MyPaymentOptions = () => {
                 onClick={() => setSelectedMethod('card')}
                 className={`p-4 border rounded-lg flex flex-col items-center gap-2 transition-all
                   ${selectedMethod === 'card' 
-                    ? 'border-purple-600 bg-purple-50' 
-                    : 'border-gray-200 hover:border-purple-600'}`}
+                    ? 'border-violet-600 bg-violet-50' 
+                    : 'border-gray-200 hover:border-violet-600'}`}
               >
                 <CreditCard className={`w-6 h-6 ${
-                  selectedMethod === 'card' ? 'text-purple-600' : 'text-gray-600'
+                  selectedMethod === 'card' ? 'text-violet-600' : 'text-gray-600'
                 }`} />
-                <span className={selectedMethod === 'card' ? 'text-purple-600' : 'text-gray-600'}>
+                <span className={selectedMethod === 'card' ? 'text-violet-600' : 'text-gray-600'}>
                   Card
                 </span>
               </button>
@@ -68,13 +68,13 @@ const MyPaymentOptions = () => {
                 onClick={() => setSelectedMethod('upi')}
                 className={`p-4 border rounded-lg flex flex-col items-center gap-2 transition-all
                   ${selectedMethod === 'upi' 
-                    ? 'border-purple-600 bg-purple-50' 
-                    : 'border-gray-200 hover:border-purple-600'}`}
+                    ? 'border-violet-600 bg-violet-50' 
+                    : 'border-gray-200 hover:border-violet-600'}`}
               >
                 <Wallet2 className={`w-6 h-6 ${
-                  selectedMethod === 'upi' ? 'text-purple-600' : 'text-gray-600'
+                  selectedMethod === 'upi' ? 'text-violet-600' : 'text-gray-600'
                 }`} />
-                <span className={selectedMethod === 'upi' ? 'text-purple-600' : 'text-gray-600'}>
+                <span className={selectedMethod === 'upi' ? 'text-violet-600' : 'text-gray-600'}>
                   UPI
                 </span>
               </button>
@@ -139,8 +139,8 @@ const MyPaymentOptions = () => {
               disabled={loading}
               className={`w-full mt-6 py-3 px-4 rounded-md text-white font-medium
                 ${loading 
-                  ? 'bg-purple-400 cursor-not-allowed' 
-                  : 'bg-purple-600 hover:bg-purple-700'}`}
+                  ? 'bg-violet-400 cursor-not-allowed' 
+                  : 'bg-violet-600 hover:bg-violet-700'}`}
             >
               {loading ? 'Processing...' : `Pay ₹118`}
             </button>
