@@ -5,13 +5,7 @@ import { VitePWA } from "vite-plugin-pwa";
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
-    server: {
-    allowedHosts: true,
-  },
-  preview: {
-    allowedHosts: true,
-  },
-  resolve: {
+    resolve: {
         alias: {
             "@": path.resolve(__dirname, "./src"),
         },
@@ -63,4 +57,10 @@ export default defineConfig({
             },
         }),
     ],
+    server: {
+        allowedHosts: true,
+    },
+    preview: {
+        allowedHosts: ["*"],
+    },
 });

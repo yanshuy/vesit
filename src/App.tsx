@@ -13,13 +13,16 @@ import GoogleCalendarIntegration from "./components/GoogleCalendarIntegration";
 import ParkingSpotSearch from "./pages/search-parking-spot/ParkingSpotSearch";
 import DemoPage from "./pages/demo-page/DemoPage";
 import Home from "./pages/Home";
+import { Toaster } from "./components/ui/toaster";
+import PaymentForm from "./pages/PaymentGateway/page";
 
-
-export const BASE_URL = "https://vesit-asb3b4e7dye8d0ck.canadacentral-01.azurewebsites.net/";
+export const BASE_URL =
+    "https://vesit-asb3b4e7dye8d0ck.canadacentral-01.azurewebsites.net/";
 
 function App() {
     return (
         <BrowserRouter>
+            <Toaster />
             <Routes>
                 <Route
                     path="login"
@@ -29,7 +32,9 @@ function App() {
                         </AuthProvider>
                     }
                 />
-                <Route path="pp" element={<ParkingModel />}></Route><Route path="gcal" element={<GoogleCalendarIntegration/>} /> 
+                <Route path="payment" element={<PaymentForm />}></Route>
+                <Route path="pp" element={<ParkingModel />}></Route>
+                <Route path="gcal" element={<GoogleCalendarIntegration />} />
                 <Route path="pay" element={<Payment />} />
                 <Route path="/" element={<MainLayout />}>
                     <Route path="events/:id" element={<EventPage />} />
@@ -42,18 +47,14 @@ function App() {
                         element={<ParkingSpotProfile />}
                     />
                     <Route
-                       
                         path="searchparkingspot"
-                       
-                        element={<ParkingSpotSearch/>}
-                   
+                        element={<ParkingSpotSearch />}
                     />
+                    <Route path="demopage" element={<DemoPage />} />
                     <Route
-                        path="demopage"
-                        element={<DemoPage/>}
+                        path="parking-spots/:id/selecttime"
+                        element={<SelectTimeSlot />}
                     />
-                    
-                    <Route path="parking-spots/:id/selecttime" element={<SelectTimeSlot />} />
                     <Route path="*" element={<h1>Not Found</h1>} />
                 </Route>
             </Routes>
