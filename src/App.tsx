@@ -5,13 +5,14 @@ import CalendarPage from "./pages/calendar/page";
 import ParkingSpotList from "./pages/parkingSpot/page";
 import ParkingSpotProfile from "./pages/parkingProfile/page";
 import SelectTimeSlot from "./pages/SelectTimeSlot";
-import ThreeDParking from "./components/3DPark";
+import ThreeDParking from "./components/3DParkingModal";
 ;
 
 export const BASE_URL = "https://natural-ape-severely.ngrok-free.app";
 import AuthForm from "./pages/auth-form/auth-form";
 import { AuthProvider } from "./lib/auth";
 import ParkingModel from "./pages/ParkingModel/page";
+import EmbeddedModelModal from "./components/3DParkingModal";
 
 function App() {
     return (
@@ -35,7 +36,6 @@ function App() {
                         element={<ParkingSpotProfile />}
                     />
                     <Route path="parking-spots/:id/selecttime" element={<SelectTimeSlot />} />
-                    <Route path="3d" element={<ThreeDParking />} />
                     <Route path="*" element={<h1>Not Found</h1>} />
                 </Route>
             </Routes>
