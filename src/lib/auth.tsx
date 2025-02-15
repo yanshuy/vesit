@@ -9,10 +9,11 @@ interface AuthContextType {
   login: (username: string, password: string) => Promise<void>
   register: (
     username: string,
+    email: string,
     password: string,
-    phone: string,
-    vehiclePlate: string,
-    vehicleModel: string,
+    phone_number: string,
+    vehicle_plate: string,
+    vehicle_model: string,
   ) => Promise<void>
   logout: () => void
 }
@@ -23,17 +24,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<any | null>(null)
 
   useEffect(() => {
-    // Check if there's a token in localStorage on initial load
     const token = localStorage.getItem("token")
     if (token) {
-      // You might want to validate the token here
       setUser({ token })
     }
   }, [])
 
   const login = async (username: string, password: string) => {
-    // Replace this with your actual API call
-    const response = await fetch("/api/login", {
+    const response = await fetch(`${BASE_URL}/api/token/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, password }),
@@ -44,31 +42,29 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
 
     const data = await response.json()
-    localStorage.setItem("token", data.token)
-    setUser({ token: data.token })
+    localStorage.setItem("token", data.access)
+    setUser({ token: data.access })
   }
 
   const register = async (
     username: string,
+    email: string,
     password: string,
-    phone: string,
-    vehiclePlate: string,
-    vehicleModel: string,
+    phone_number: string,
+    vehicle_plate: string,
+    vehicle_model: string,
   ) => {
-    // Replace this with your actual API call
-    const response = await fetch(`${BASE_URL}/api/auth`, {
+    const response = await fetch(`${BASE_URL}/api/auth/users/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password, phone, vehiclePlate, vehicleModel }),
+      body: JSON.stringify({ username, email, password, phone_number, vehicle_plate, vehicle_model}),
     })
-
     if (!response.ok) {
       throw new Error("Registration failed")
     }
-
     const data = await response.json()
-    localStorage.setItem("token", data.token)
-    setUser({ token: data.token })
+    localStorage.setItem("token", data.access)
+    setUser({ token: data.access })
   }
 
   const logout = () => {
