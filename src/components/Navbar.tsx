@@ -47,7 +47,7 @@ const Navbar = () => {
           <div className="flex justify-between items-center mb-6">
             <Link to="/" className="flex items-center gap-2">
               <Car className="w-6 h-6 text-purple-600" />
-              <span className="font-bold text-lg text-gray-900">ParkEase</span>
+              <span className="font-bold text-lg text-gray-900">Smapa</span>
             </Link>
             <button
               onClick={() => setIsSidebarOpen(false)}
@@ -98,13 +98,18 @@ const Navbar = () => {
       <div className="flex-1 flex flex-col min-h-screen">
         {/* Top Navbar - visible on mobile */}
         <nav className="md:hidden flex items-center justify-between px-4 h-16 bg-white shadow-sm">
+          <div className="flex items-center gap-2">
           <button
             onClick={() => setIsSidebarOpen(true)}
             className="p-2 hover:bg-gray-100 rounded-lg"
           >
             <Menu className="w-6 h-6" />
           </button>
-          <span className="font-semibold">ParkEase</span>
+          <span className="font-semibold">Smapa</span>
+          </div>
+          <Link to={'/login'}>
+            <button className='py-2 px-4 rounded-lg border border-violet-800 text-violet-800'>Login</button>
+          </Link>
         </nav>
 
         {/* Page Content */}

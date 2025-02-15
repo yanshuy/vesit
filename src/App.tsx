@@ -12,6 +12,7 @@ import Payment from "./FastBooking/Payments/page";
 import ParkingSpotSearch from "./pages/search-parking-spot/ParkingSpotSearch";
 import DemoPage from "./pages/demo-page/DemoPage";
 import EmbeddedModelModal from "./components/3DParkingModal";
+import Home from "./pages/Home";
 
 
 export const BASE_URL = "https://natural-ape-severely.ngrok-free.app";
@@ -33,7 +34,8 @@ function App() {
                 <Route path="/" element={<MainLayout />}>
                     <Route path="events/:id" element={<EventPage />} />
                     <Route path="calendar" element={<CalendarPage />} />
-                    <Route index element={<ParkingSpotList />} />
+                    <Route index element={<Home />} />
+                    <Route path="parking-spots" element={<ParkingSpotList />} />
                     <Route
                         // index
                         path="parking-spots/:id"
