@@ -6,10 +6,9 @@ import {
     OrbitControls,
     Html,
 } from "@react-three/drei";
-import type { GLTF } from "three-stdlib";
 
 function Model() {
-    const { scene } = useGLTF("/untitled.glb") as GLTF;
+    const { scene } = useGLTF("/untitled.glb");
 
     // Adjust scale and position if necessary
     return (
