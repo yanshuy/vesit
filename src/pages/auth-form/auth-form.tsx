@@ -52,7 +52,8 @@ export default function AuthForm() {
   }
 
   return (
-    <Card className="w-[350px] sm:w-[400px]">
+    <div className="min-h-screen grid place-items-center">
+    <Card className="w-full max-w-md">
       <Tabs value={activeTab} onValueChange={setActiveTab}>
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="login">Login</TabsTrigger>
@@ -124,6 +125,8 @@ export default function AuthForm() {
         </TabsContent>
       </Tabs>
     </Card>
+    </div>
+
   )
 }
 

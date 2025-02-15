@@ -8,7 +8,7 @@ export default function MainLayout() {
       <header>
         <Navbar />
       </header>
-      <main>
+      <main className="my-16">
         <Outlet />
       </main>
       <BottomNav />

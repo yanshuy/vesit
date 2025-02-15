@@ -15,7 +15,7 @@ import DemoPage from "./pages/demo-page/DemoPage";
 import Home from "./pages/Home";
 
 
-export const BASE_URL = "https://natural-ape-severely.ngrok-free.app";
+export const BASE_URL = "https://vesit-asb3b4e7dye8d0ck.canadacentral-01.azurewebsites.net/";
 
 function App() {
     return (

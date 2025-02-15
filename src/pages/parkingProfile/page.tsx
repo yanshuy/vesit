@@ -6,11 +6,10 @@ import { useNavigate } from "react-router-dom";
 const spot = {
   id: 1,
   name: "City Center Parking",
-  mainImage: "https://images.unsplash.com/photo-1570129477492-45c003edd2be",
+  mainImage: "/Parkingspots/1A.png",
   images: [
-    "https://images.unsplash.com/photo-1570129477492-45c003edd2be",
-    "https://images.unsplash.com/photo-1580587771525-78b9dba3b914",
-    "https://images.unsplash.com/photo-1570129477492-45c003edd2be",
+    "/Parkingspots/1C.png",
+    "/Parkingspots/1B.png",
   ],
   rating: 4.7,
   reviews: 128,
@@ -259,7 +258,7 @@ const ParkingSpotProfile = () => {
                 </div>
 
                 <div className="pt-4">
-                  <button className="w-full bg-primary-600 hover:bg-primary-700 text-white py-4 rounded-xl font-semibold transition-colors">
+                  <button className="w-full bg-primary-600 hover:bg-black text-black py-4 rounded-xl font-semibold transition-colors">
                     Reserve now - {spot.price}
                   </button>
                 </div>

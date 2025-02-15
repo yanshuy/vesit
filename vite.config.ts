@@ -9,7 +9,7 @@ export default defineConfig({
     allowedHosts: true,
   },
   preview: {
-    allowedHosts: ["9288-103-163-66-220.ngrok-free.app"],
+    allowedHosts: true,
   },
   resolve: {
         alias: {
@@ -30,8 +30,8 @@ export default defineConfig({
             },
             manifest: {
                 scope: "/",
-                name: "Smapa",
-                short_name: "Smapa",
+                name: "Parko",
+                short_name: "Parko",
                 theme_color: "#ffffff",
                 background_color: "#ffffff",
                 icons: [

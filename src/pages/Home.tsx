@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Search, MapPin, ChevronUpIcon, ChevronDown } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Search, MapPin, ChevronUpIcon, ChevronDown, Star, Clock, Car, ArrowRight } from 'lucide-react';
 import Map from '../components/Map'; // Assuming you have this component
+import { IconRight } from 'react-day-picker';
 
 interface ParkingSpot {
   id: string;
@@ -9,7 +10,7 @@ interface ParkingSpot {
   address: string;
   price: number;
   available: boolean;
-  distance: string;
+  time: number;
   imageUrl: string;
 }
 
@@ -120,55 +121,143 @@ const Home = () => {
 
       {/* Parking Spots Section */}
       <div className="px-4 py-6">
-        <h2 className="text-xl font-semibold mb-4">Nearby Parking Spots</h2>
+        <h2 className="text-xl font-semibold">Nearby Parking Spots</h2>
+        <p className='text-gray-500 mb-5'>The best parking space near you</p>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <ParkingSpotCard
+        <Link to={'/parking-spots/1'}>
+        <ParkingSpotCard
             spot={{
               id: '1',
               name: 'Central Parking',
-              address: '123 Main St',
-              price: 5,
+              address: '123 Main St, Downtown Area, Near Shopping Mall',
+              price: 50,
               available: true,
-              distance: '0.5 km',
-              imageUrl: '/parking1.jpg'
+              time: 4,
+              imageUrl: '/Parkingspots/1C.png',
+              availableTypes: ['car', 'bike', 'cycle'],
+              rating: 4.5,
+              reviews: 21,
+              availableSlots: 5
             }}
           />
-          {/* Add more parking spot cards here */}
+        </Link>
+        <ParkingSpotCard
+            spot={{
+              id: '2',
+              name: 'Miraj',
+              address: '567 Street, Uptown Nagar, Near Shopping Mall',
+              price: 100,
+              available: true,
+              time: 22,
+              imageUrl: '/Parkingspots/1B.png',
+              availableTypes: ['car', 'bike'],
+              rating: 4.5,
+              reviews: 21,
+              availableSlots: 28
+            }}
+          />
+          <Link to={'/'}>
+            <button className="bg-violet-500 text-white px-4 py-2 rounded-lg w-full flex justify-center items-center gap-3 text-center">
+              View More <ArrowRight className="w-5 h-5" />
+            </button>
+          </Link>
         </div>
       </div>
     </div>
   );
 };
 
+// Update the ParkingSpot interface first
+interface ParkingSpot {
+  id: string;
+  name: string;
+  address: string;
+  price: number;
+  available: boolean;
+  time: number;
+  imageUrl: string;
+  availableTypes: ('car' | 'bike' | 'cycle')[];
+  rating: number;
+  reviews: number;
+  availableSlots: number;
+}
+
+// Update the ParkingSpotCard component
 const ParkingSpotCard: React.FC<{ spot: ParkingSpot }> = ({ spot }) => {
   const navigate = useNavigate();
+
+  const truncateAddress = (address: string) => {
+    return address.length > 35 ? address.substring(0, 35) + '...' : address;
+  };
 
   return (
     <div
       onClick={() => navigate(`/parking-spots/${spot.id}`)}
       className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow 
-        duration-200 cursor-pointer overflow-hidden"
+        duration-200 cursor-pointer overflow-hidden p-4"
     >
-      <div className="relative h-48">
-        <img
-          src={spot.imageUrl}
-          alt={spot.name}
-          className="w-full h-full object-cover"
-        />
-        {spot.available && (
-          <span className="absolute top-2 right-2 px-2 py-1 bg-green-500 
-            text-white text-xs font-medium rounded">
-            Available
-          </span>
-        )}
-      </div>
-      <div className="p-4">
-        <h3 className="font-semibold text-lg mb-1">{spot.name}</h3>
-        <p className="text-gray-600 text-sm mb-2">{spot.address}</p>
-        <div className="flex justify-between items-center">
-          <span className="text-purple-600 font-bold">${spot.price}/hr</span>
-          <span className="text-sm text-gray-500">{spot.distance}</span>
+      <div className="flex gap-4">
+        {/* Left side - Image */}
+        <div className="w-1/4">
+          <img
+            src={spot.imageUrl}
+            alt={spot.name}
+            className="w-full aspect-square object-cover rounded-lg"
+          />
         </div>
+
+        {/* Right side - Details */}
+        <div className="w-3/4 flex flex-col gap-1">
+          {/* Vehicle Types */}
+          <div className="flex gap-2">
+            {spot.availableTypes.map((type) => (
+              <span 
+                key={type}
+                className="px-2 py-0.5 bg-violet-50 text-violet-400 rounded text-xs font-medium"
+              >
+                {type.charAt(0).toUpperCase() + type.slice(1)}
+              </span>
+            ))}
+          </div>
+
+          {/* Name */}
+          <h3 className="font-semibold text-gray-900">{spot.name}</h3>
+
+          {/* Address */}
+          <p className="text-gray-500 text-sm">{truncateAddress(spot.address)}</p>
+        </div>
+      </div>
+
+      {/* Rating and Reviews */}
+      <div className="flex items-center gap-2 pt-3">
+        <div className="flex items-center">
+          {[...Array(5)].map((_, i) => (
+            <Star 
+              key={i}
+              className={`w-4 h-4 ${
+                i < Math.floor(spot.rating) 
+                  ? 'text-yellow-300 fill-yellow-300' 
+                  : 'text-gray-300'
+              }`}
+            />
+          ))}
+        </div>
+        <span className="text-sm text-gray-600">
+          ({spot.reviews} reviews)
+        </span>
+      </div>
+
+      {/* Bottom Row */}
+      <div className="flex items-center text-gray-500 justify-between pt-3">
+        <span className="">
+          ₹ {spot.price}/hr
+        </span>
+        <span className="flex justify-center items-center gap-2">
+          <Clock className='h-4 w-4'/> {spot.time} minutes
+        </span>
+        <span className="flex justify-center items-center gap-2">
+          <Car className='h-5 w-5'/> {spot.availableSlots} available
+        </span>
       </div>
     </div>
   );
