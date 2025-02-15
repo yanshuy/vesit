@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Menu, Home, Users, Settings, X, Car, Calendar, CreditCard, User2Icon, LogOutIcon } from 'lucide-react';
+import { Menu, Home, User, Settings, X, Car, Calendar, CreditCard, User2Icon, LogOutIcon, CalendarClock, Map } from 'lucide-react';
 import { Link, useLocation, Outlet } from 'react-router-dom';
 import Logo from '/src/assets/parkingicon.png'
 
@@ -17,10 +17,9 @@ const Navbar = () => {
   // Enhanced navigation items with better organization
   const navigationItems = [
     { icon: Home, label: 'Home', path: '/' },
-    { icon: Car, label: 'Parking Model', path: '/parking-model' },
-    { icon: Calendar, label: 'Bookings', path: '/bookings' },
-    { icon: CreditCard, label: 'Payments', path: '/payments' },
-    { icon: Users, label: 'Profile', path: '/profile' },
+    { icon: CalendarClock, label: 'Bookings', path: '/my-bookings' },
+    { icon: Map, label: 'Map', path: '/map' },
+    { icon: CreditCard, label: 'Payments', path: '/my-payment-options' },
     { icon: Settings, label: 'Settings', path: '/settings' },
   ];
 
@@ -94,6 +93,7 @@ const Navbar = () => {
           <nav className="space-y-1 flex-1">
             {navigationItems.map((item) => {
               const isActive = location.pathname === item.path;
+              if (item.path === '/') return null;
               return (
                 <Link
                   key={item.path}
@@ -130,6 +130,7 @@ const Navbar = () => {
           </div>
           <div className="flex max-md:hidden">
             {navigationItems.map((item) => {
+              if(item.label === 'Settings') return null;
               return (
                 <Link
                   key={item.path}
@@ -137,7 +138,6 @@ const Navbar = () => {
                   className={`flex items-center gap-3 p-3 rounded-lg transition-colors duration-200
                     hover:text-violet-500`}
                 >
-                  <item.icon className={`w-5 h-5`} />
                   <span className={`font-medium`}>
                     {item.label}
                   </span>

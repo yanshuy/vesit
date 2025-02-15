@@ -82,14 +82,14 @@ const Home = () => {
                     <span className="text-sm text-gray-100">Your location</span>
                     <ChevronDown 
                     className={`w-4 h-4 transition-transform duration-200
-                    ${isLocationExpanded ? 'rotate-180' : ''}`}
+                    ${isLocationExpanded ? 'rotate-180' : ''} ${window.innerWidth > 768 ? 'hidden' : ''}`}
                     />
                 </div>
                 <div className="flex items-start gap-2">
                     <MapPin className="w-5 h-5 text-cyan-400 flex-shrink-0" />
                     <div className="flex flex-col">
                     <p className="text-sm text-start font-medium">
-                        {!isLocationExpanded ? 
+                        {!isLocationExpanded && window.innerWidth < 768? 
                         (userLocation ? truncateLocation(userLocation) : 'Loading location...') : 
                         userLocation
                         }
@@ -109,7 +109,7 @@ const Home = () => {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search for parking spots..."
-                  className="w-full px-4 py-3 pl-12 rounded-lg bg-transparent border 
+                  className="md:w-1/2 w-full px-4 py-3 pl-12 rounded-lg bg-transparent border 
                     text-white placeholder-white focus:outline-none"
                 />
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white" />
@@ -121,8 +121,17 @@ const Home = () => {
 
       {/* Parking Spots Section */}
       <div className="px-4 py-6">
-        <h2 className="text-xl font-semibold">Nearby Parking Spots</h2>
-        <p className='text-gray-500 mb-5'>The best parking space near you</p>
+        <div className='flex justify-between items-center'>
+          <div>
+            <h2 className="text-xl font-semibold">Nearby Parking Spots</h2>
+            <p className='text-gray-500 mb-5'>The best parking space near you</p>
+          </div>
+          <Link to={'/'} className='max-md:hidden'>
+            <button className="bg-violet-500 text-white px-4 py-2 rounded-lg w-full flex justify-center items-center gap-3 text-center cursor-pointer">
+              View More <ArrowRight className="w-5 h-5" />
+            </button>
+          </Link>
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <Link to={'/parking-spots/1'}>
         <ParkingSpotCard
@@ -156,12 +165,29 @@ const Home = () => {
               availableSlots: 28
             }}
           />
-          <Link to={'/'}>
-            <button className="bg-violet-500 text-white px-4 py-2 rounded-lg w-full flex justify-center items-center gap-3 text-center">
-              View More <ArrowRight className="w-5 h-5" />
-            </button>
-          </Link>
+        {window.innerWidth > 1023 && (
+          <ParkingSpotCard
+          spot={{
+            id: '2',
+            name: 'Pheonix Malls',
+            address: '972 Street, Lefttown hurch, Near Shopping Mall',
+            price: 17000,
+            available: true,
+            time: 2,
+            imageUrl: '/Parkingspots/1B.png',
+            availableTypes: ['car', 'bike'],
+            rating: 4.5,
+            reviews: 21,
+            availableSlots: 17
+          }}
+        />
+        )}
         </div>
+        <Link to={'/'} className='md:hidden '>
+          <button className="bg-violet-500 text-white px-4 py-2 mt-4 rounded-lg w-full flex justify-center items-center gap-3 text-center cursor-pointer">
+            View More <ArrowRight className="w-5 h-5" />
+          </button>
+        </Link>
       </div>
     </div>
   );
