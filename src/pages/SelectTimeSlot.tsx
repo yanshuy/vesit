@@ -146,7 +146,7 @@ export default function SelectTimeSlot() {
 
         {/* Next Button */}
         <button
-          className="w-full mt-8 bg-purple-600 text-white py-4 rounded-full font-medium hover:bg-purple-700 transition-colors"
+          className="w-full mt-8 bg-violet-600 text-white py-4 rounded-full font-medium hover:bg-violet-700 transition-colors"
           disabled={!selectedVehicle}
         >
           Next

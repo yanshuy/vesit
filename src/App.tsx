@@ -18,9 +18,11 @@ import PaymentForm from "./components/PaymentForm";
 import MyPaymentOptions from "./pages/MyPaymentOptions";
 import ParkingLotMap from "./GUI/ParkingLotMap/page";
 import GUI from "./GUI/page";
+import MyBookings from "./pages/MyBookings";
 
 export const BASE_URL =
-    "https://vesit-asb3b4e7dye8d0ck.canadacentral-01.azurewebsites.net/";
+    // "https://vesit-asb3b4e7dye8d0ck.canadacentral-01.azurewebsites.net";
+    "https://natural-ape-severely.ngrok-free.app";
 
 function App() {
     return (
@@ -48,24 +50,12 @@ function App() {
                     <Route path="calendar" element={<CalendarPage />} />
                     <Route path="map" element={<Map onlyMap={false} />} />
                     <Route path="events/:id" element={<EventPage />} />
-                    <Route
-                        path="searchparkingspot"
-                        element={<ParkingSpotSearch />}
-                    />
+                    <Route path="searchparkingspot" element={<ParkingSpotSearch />} />
                     <Route path="parking-spots" element={<ParkingSpotList />} />
-                    <Route
-                        /* index */ path="parking-spots/:id"
-                        element={<ParkingSpotProfile />}
-                    />
-                    <Route
-                        path="parking-spots/:id/selecttime"
-                        element={<SelectTimeSlot />}
-                    />
-                    <Route path="my-bookings" element={<SelectTimeSlot />} />
-                    <Route
-                        path="my-payment-options"
-                        element={<MyPaymentOptions />}
-                    />
+                    <Route /* index */ path="parking-spots/:id" element={<ParkingSpotProfile />} />
+                    <Route path="parking-spots/:id/selecttime" element={<SelectTimeSlot />} />
+                    <Route path="my-bookings" element={<MyBookings />} />
+                    <Route path="my-payment-options" element={<MyPaymentOptions />} />
                     <Route path="demopage" element={<DemoPage />} />
                     <Route path="*" element={<h1>Not Found</h1>} />
                 </Route>

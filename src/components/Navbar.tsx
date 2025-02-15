@@ -81,11 +81,11 @@ const Navbar = () => {
                 <div className="flex h-full flex-col p-4">
                     {/* Logo and Close Button */}
                     <div className="mb-6 flex items-center justify-between">
-                        <Link to="/" className="flex items-center gap-2">
-                            <Car className="h-6 w-6 text-purple-600" />
-                            <span className="text-lg font-bold text-gray-900">
-                                Parko
-                            </span>
+                        <Link to="/" className="flex items-center gap-2 pl-2">
+                          <div className='h-9 w-9 mr-2'>
+                            <img src={Logo} alt='Logo' className='h-full object-cover md:-translate-y-1 -translate-y-1'/>
+                          </div>
+                          <span className="font-semibold text-[1.6rem] max-md:translate-y-1">Parko</span>
                         </Link>
                         <button
                             onClick={() => setIsSidebarOpen(false)}
@@ -106,11 +106,11 @@ const Navbar = () => {
                   to={item.path}
                   className={`flex items-center gap-3 p-3 rounded-lg transition-colors duration-200
                     ${isActive 
-                      ? 'bg-purple-50 text-purple-600' 
+                      ? 'bg-violet-50 text-violet-600' 
                       : 'text-gray-600 hover:bg-gray-100'}`}
                 >
-                  <item.icon className={`w-5 h-5 ${isActive ? 'text-purple-600' : 'text-gray-500'}`} />
-                  <span className={`font-medium ${isActive ? 'text-purple-600' : 'text-gray-700'}`}>
+                  <item.icon className={`w-5 h-5 ${isActive ? 'text-violet-600' : 'text-gray-500'}`} />
+                  <span className={`font-medium ${isActive ? 'text-violet-600' : 'text-gray-700'}`}>
                     {item.label}
                   </span>
                 </Link>

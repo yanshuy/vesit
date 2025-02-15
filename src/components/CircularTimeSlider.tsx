@@ -81,13 +81,13 @@ export default function CircularTimeSlider({ value, onChange, min, max, startTim
   return (
     <div className="relative w-80 h-80 mx-auto">
       {/* Background Circle */}
-      <div className="absolute inset-0 rounded-full bg-gradient-to-br from-purple-50 to-white shadow-lg" />
+      <div className="absolute inset-0 rounded-full bg-gradient-to-br from-violet-50 to-white shadow-lg" />
       
       {/* Main Slider */}
       <div
         ref={sliderRef}
-        className="absolute inset-2 rounded-full border-8 border-purple-100/50 cursor-pointer 
-          transition-all duration-300 hover:border-purple-200/70 bg-white/90 backdrop-blur-sm"
+        className="absolute inset-2 rounded-full border-8 border-violet-100/50 cursor-pointer 
+          transition-all duration-300 hover:border-violet-200/70 bg-white/90 backdrop-blur-sm"
         onMouseDown={handleMouseDown}
         onTouchStart={handleTouchStart}
       >
@@ -107,10 +107,10 @@ export default function CircularTimeSlider({ value, onChange, min, max, startTim
               <div className={`relative flex flex-col items-center transition-all duration-300
                 ${isCurrentHour ? "scale-110" : ""}`}>
                 <div className={`w-1.5 h-5 rounded-full ${
-                  isCurrentHour ? "bg-purple-600" : "bg-purple-200"
+                  isCurrentHour ? "bg-violet-600" : "bg-violet-200"
                 } transition-all duration-300`} />
                 <span className={`text-xs font-medium mt-1 ${
-                  isCurrentHour ? "text-purple-600" : "text-purple-400"
+                  isCurrentHour ? "text-violet-600" : "text-violet-400"
                 }`} style={{ transform: `rotate(-${angle}deg)` }}>
                   {i + min}h
                 </span>
@@ -121,7 +121,7 @@ export default function CircularTimeSlider({ value, onChange, min, max, startTim
 
         {/* Handle */}
         <div
-          className="absolute w-10 h-10 bg-purple-600 rounded-full shadow-lg cursor-pointer 
+          className="absolute w-10 h-10 bg-violet-600 rounded-full shadow-lg cursor-pointer 
             transition-all duration-150 hover:scale-110 active:scale-95 flex items-center justify-center"
           style={{
             left: "50%",
@@ -139,7 +139,7 @@ export default function CircularTimeSlider({ value, onChange, min, max, startTim
             <div className="text-lg font-semibold text-gray-900 mb-3">
               {startTime} - {calculateEndTime(value)}
             </div>
-            <div className="text-4xl font-bold text-purple-600 mb-2">
+            <div className="text-4xl font-bold text-violet-600 mb-2">
               ${totalAmount}
             </div>
             <div className="text-sm text-gray-600">

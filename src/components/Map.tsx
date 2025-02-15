@@ -64,7 +64,7 @@ const cases = [
     title: "Assault Cases",
     description: "Reports of physical assault incidents.",
     radius: 350,
-    colour: "purple",
+    colour: "violet",
   },
   {
     id: 6,
