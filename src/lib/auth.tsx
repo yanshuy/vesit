@@ -2,6 +2,7 @@
 import type React from "react"
 
 import { useState, useEffect, createContext, useContext } from "react"
+import { BASE_URL } from "../App"
 
 interface AuthContextType {
   user: any | null
@@ -55,7 +56,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     vehicleModel: string,
   ) => {
     // Replace this with your actual API call
-    const response = await fetch(``, {
+    const response = await fetch(`${BASE_URL}/api/auth`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, password, phone, vehiclePlate, vehicleModel }),
