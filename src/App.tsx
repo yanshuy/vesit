@@ -9,7 +9,6 @@ import SelectTimeSlot from "./pages/SelectTimeSlot";
 import AuthForm from "./pages/auth-form/auth-form";
 import { AuthProvider } from "./lib/auth";
 import ParkingModel from "./pages/ParkingModel/page";
-import Payment from "./FastBooking/Payments/page";
 import GoogleCalendarIntegration from "./components/GoogleCalendarIntegration";
 import ParkingSpotSearch from "./pages/search-parking-spot/ParkingSpotSearch";
 import DemoPage from "./pages/demo-page/DemoPage";
@@ -17,6 +16,7 @@ import Home from "./pages/Home";
 import { Toaster } from "./components/ui/toaster";
 import PaymentForm from "./pages/PaymentGateway/page";
 import MyPaymentOptions from "./pages/MyPaymentOptions";
+import Payment from "./GUI/Payments/page";
 
 export const BASE_URL =
     "https://vesit-asb3b4e7dye8d0ck.canadacentral-01.azurewebsites.net/";
