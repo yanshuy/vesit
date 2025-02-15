@@ -2,9 +2,9 @@
 
 import { useState, useRef, useEffect } from "react"
 import { motion, useAnimation, type PanInfo, AnimatePresence } from "framer-motion"
-import { X } from "lucide-react"
+import { Search, X } from "lucide-react"
 import ParkingSpotCard from "../../components/ParkingSpotCard"
-import { APIProvider, AdvancedMarker, Pin, InfoWindow, Map } from '@vis.gl/react-google-maps'
+import { APIProvider, AdvancedMarker, Pin, InfoWindow, Map, Marker } from '@vis.gl/react-google-maps'
 
 export default function ParkingSpotSearch() {
   const [isOpen, setIsOpen] = useState(true)
@@ -47,7 +47,7 @@ export default function ParkingSpotSearch() {
   };
 
   useEffect(() => {
-    console.log(import.meta.env.VITE_MAPS_API_KEY);
+    // console.log(import.meta.env.VITE_MAPS_API_KEY);
     
     getLocation();
   }, []);
@@ -80,20 +80,75 @@ export default function ParkingSpotSearch() {
   }
 
   return (
-    <>
-      <APIProvider apiKey={import.meta.env.VITE_MAPS_API_KEY || ''}> 
-        <div className="h-screen">
-          <Map 
-            zoom={9} 
-            center={{
-              lat: location.lat,
-              lng: location.lng 
-            }} 
-          />
+    <div className="h- overflow-y-hidden">
+            <div className="absolute left-0 right-0 bg-white  top-5 p-2 rounded-3xl z-50 flex items-center mx-6">
+                <Search className="ml-4" />
+                <input
+                  type="text"
+                  placeholder="Search places"
+                  className="w-full p-2 pl-3.5 pr-4 border-none rounded-full text-sm text-gray-800 focus:outline-none placeholder-gray-500"
+                  style={{ marginLeft: 'auto', marginRight: 'auto' }}  // this centers the input
+                />
+      </div>
+       <APIProvider apiKey={import.meta.env.VITE_MAPS_API_KEY || ''}>
+        <div style={{ height: "100vh", width: "100%" }}>
+          <Map
+            defaultZoom={14}
+            defaultCenter={{
+              lat: 19.0364,
+              lng: 72.8595
+            }}
+            gestureHandling="greedy"
+            disableDefaultUI={true} // Disable all default UI elements
+            styles={{ // Optionally set map styles to remove satellite view
+              styles: [
+                {
+                  featureType: "all",
+                  elementType: "labels",
+                  stylers: [
+                    { visibility: "off" } // Hide labels if needed
+                  ]
+                },
+                {
+                  featureType: "road",
+                  elementType: "geometry",
+                  stylers: [
+                    { visibility: "simplified" }  //Optional: Simplify road view
+                  ]
+                },
+                {
+                  featureType: "transit",
+                  stylers: [
+                    { visibility: "off" } // Hide transit features
+                  ]
+                },
+                {
+                  featureType: "poi",
+                  stylers: [
+                    { visibility: "off" } // Hide points of interest
+                  ]
+                },
+                {
+                  featureType: "administrative",
+                  elementType: "geometry",
+                  stylers: [
+                    { visibility: "off" } // Hide administrative boundaries
+                  ]
+                }
+
+              ]
+            }}
+          >
+            <Marker position={{
+              lat: 19.0364,
+              lng: 72.8595
+            }} />
+
+          </Map>
         </div>
       </APIProvider>
       
-      {/* <AnimatePresence>
+      <AnimatePresence>
         {isOpen && (
           <>
             <motion.div
@@ -136,7 +191,7 @@ export default function ParkingSpotSearch() {
             </motion.div>
           </>
         )}
-      </AnimatePresence> */}
-    </>
+      </AnimatePresence>
+    </div>
   )
 }
