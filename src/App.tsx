@@ -6,12 +6,11 @@ import ParkingSpotList from "./pages/parkingSpot/page";
 import ParkingSpotProfile from "./pages/parkingProfile/page";
 import SelectTimeSlot from "./pages/SelectTimeSlot";
 import ThreeDParking from "./components/3DPark";
-;
-
 export const BASE_URL = "https://natural-ape-severely.ngrok-free.app";
 import AuthForm from "./pages/auth-form/auth-form";
 import { AuthProvider } from "./lib/auth";
 import ParkingModel from "./pages/ParkingModel/page";
+import Payment from "./FastBooking/Payments/page";
 import ParkingSpotSearch from "./pages/search-parking-spot/ParkingSpotSearch";
 import DemoPage from "./pages/demo-page/DemoPage";
 
@@ -28,6 +27,7 @@ function App() {
                     }
                 />
                 <Route path="pp" element={<ParkingModel />}></Route>
+                <Route path="pay" element={<Payment />} />
                 <Route path="/" element={<MainLayout />}>
                     <Route path="events/:id" element={<EventPage />} />
                     <Route path="calendar" element={<CalendarPage />} />
@@ -37,8 +37,11 @@ function App() {
                         element={<ParkingSpotProfile />}
                     />
                     <Route
+                       
                         path="searchparkingspot"
+                       
                         element={<ParkingSpotSearch/>}
+                   
                     />
                     <Route
                         path="demopage"
