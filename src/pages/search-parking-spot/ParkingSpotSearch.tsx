@@ -1,197 +1,267 @@
-"use client"
+import React, { useState, useMemo, useEffect, useRef, useCallback } from "react";
+import { GoogleMap, useLoadScript, Autocomplete, Marker } from "@react-google-maps/api";
+import { Search } from "lucide-react";
+import Drawer from "../../assets/Drawer";
+import ParkingSpotCard from "../../components/ParkingSpotCard";
 
-import { useState, useRef, useEffect } from "react"
-import { motion, useAnimation, type PanInfo, AnimatePresence } from "framer-motion"
-import { Search, X } from "lucide-react"
-import ParkingSpotCard from "../../components/ParkingSpotCard"
-import { APIProvider, AdvancedMarker, Pin, InfoWindow, Map, Marker } from '@vis.gl/react-google-maps'
 
-export default function ParkingSpotSearch() {
-  const [isOpen, setIsOpen] = useState(true)
-  const [location, setLocation] = useState({
-    lat: 0,
-    lng: 0,
-    isSet: false
+
+const PARKING_SPOTS = [
+  {
+    name: "Downtown Parking Garage",
+    image: "/placeholder.svg?height=200&width=400",
+    distance: "0.2 miles",
+    time: "5 min walk",
+    rating: 4.5,
+    price: "$8/hr",
+    availableSpots: 25,
+    coordinates: { lat: 40.7128, lng: -74.0060 }
+  },
+  {
+    name: "Downtown Parking Garage",
+    image: "/placeholder.svg?height=200&width=400",
+    distance: "0.2 miles",
+    time: "5 min walk",
+    rating: 4.5,
+    price: "$8/hr",
+    availableSpots: 25,
+    coordinates: { lat: 40.7135, lng: -74.0055 }
+  },
+  {
+    name: "Downtown Parking Garage",
+    image: "/placeholder.svg?height=200&width=400",
+    distance: "0.2 miles",
+    time: "5 min walk",
+    rating: 4.5,
+    price: "$8/hr",
+    availableSpots: 25,
+    coordinates: { lat: 40.7140, lng: -74.0065 }
+  },
+  {
+    name: "Downtown Parking Garage",
+    image: "/placeholder.svg?height=200&width=400",
+    distance: "0.2 miles",
+    time: "5 min walk",
+    rating: 4.5,
+    price: "$8/hr",
+    availableSpots: 25,
+    coordinates: { lat: 40.7122, lng: -74.0070 }
+  },
+  {
+    name: "Downtown Parking Garage",
+    image: "/placeholder.svg?height=200&width=400",
+    distance: "0.2 miles",
+    time: "5 min walk",
+    rating: 4.5,
+    price: "$8/hr",
+    availableSpots: 25,
+    coordinates: { lat: 40.7118, lng: -74.0062 }
+  },
+  {
+    name: "Downtown Parking Garage",
+    image: "/placeholder.svg?height=200&width=400",
+    distance: "0.2 miles",
+    time: "5 min walk",
+    rating: 4.5,
+    price: "$8/hr",
+    availableSpots: 25,
+    coordinates: { lat: 40.7130, lng: -74.0050 }
+  },
+  {
+    name: "Downtown Parking Garage",
+    image: "/placeholder.svg?height=200&width=400",
+    distance: "0.2 miles",
+    time: "5 min walk",
+    rating: 4.5,
+    price: "$8/hr",
+    availableSpots: 25,
+    coordinates: { lat: 40.7125, lng: -74.0075 }
+  },
+  {
+    name: "Central Station Parking",
+    image: "/placeholder.svg?height=200&width=400",
+    distance: "0.5 miles",
+    time: "10 min walk",
+    rating: 4.0,
+    price: "$5/hr",
+    availableSpots: 42,
+    coordinates: { lat: 40.7150, lng: -74.0100 }
+  },
+  {
+    name: "Market Street Garage",
+    image: "/placeholder.svg?height=200&width=400",
+    distance: "0.8 miles",
+    time: "15 min walk",
+    rating: 4.8,
+    price: "$10/hr",
+    availableSpots: 15,
+    coordinates: { lat: 40.7170, lng: -74.0120 }
+  },
+  {
+    name: "Convention Center Parking",
+    image: "/placeholder.svg?height=200&width=400",
+    distance: "1.0 miles",
+    time: "20 min walk",
+    rating: 3.5,
+    price: "$6/hr",
+    availableSpots: 80,
+    coordinates: { lat: 40.7200, lng: -74.0150 }
+  },
+  {
+    name: "River View Parking",
+    image: "/placeholder.svg?height=200&width=400",
+    distance: "1.2 miles",
+    time: "25 min walk",
+    rating: 4.2,
+    price: "$7/hr",
+    availableSpots: 35,
+    coordinates: { lat: 40.7230, lng: -74.0180 }
+  },
+]
+
+const ParkingSpotSearch = () => {
+  const mapRef = useRef(null);
+  const autocompleteRef = useRef(null);
+  const [center, setCenter] = useState({ lat: 18.567, lng: 72.789 });
+  const [marker, setMarker] = useState(null);
+  const [isOpen, setIsOpen] = useState(true);
+  
+
+  const mycenter = useMemo(() => center, [center]);
+
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: import.meta.env.VITE_MAPS_API_KEY || "",
+    libraries: ["places"],
   });
-  const [sheetHeight, setSheetHeight] = useState(window.innerHeight * 0.6)
-  const controls = useAnimation()
-  const constraintsRef = useRef(null)
 
-  const getLocation = () => {
+  useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          setLocation({
+          setCenter({
             lat: position.coords.latitude,
             lng: position.coords.longitude,
-            isSet: true
           });
         },
         (error) => {
-          console.error("Geolocation error:", error);
-          setLocation({
-            lat: 0,
-            lng: 0,
-            isSet: false
-          });
+          console.error("Error getting location:", error);
+          setCenter({ lat: 19.076, lng: 72.8777 }); // Mumbai fallback
         }
       );
     } else {
-      console.warn("Geolocation is not supported by this browser");
-      setLocation({
-        lat: 0,
-        lng: 0,
-        isSet: false
-      });
+      setCenter({ lat: 19.076, lng: 72.8777 });
+    }
+  }, []);
+
+  const mapOptions = useMemo(
+    () => ({
+      disableDefaultUI: true,
+      gestureHandling: "greedy",
+      zoomControl: true,
+      mapTypeControl: false,
+      streetViewControl: false,
+    }),
+    []
+  );
+
+  const onLoad = useCallback((map) => {
+    mapRef.current = map;
+  }, []);
+
+  const onUnmount = useCallback(() => {
+    mapRef.current = null;
+  }, []);
+
+  const onPlaceChanged = () => {
+    if (autocompleteRef.current) {
+      const place = autocompleteRef.current.getPlace();
+
+      if (place.geometry && place.geometry.location) {
+        const newCenter = {
+          lat: place.geometry.location.lat(),
+          lng: place.geometry.location.lng(),
+        };
+        setCenter(newCenter);
+        mapRef.current?.panTo(newCenter); // Pan to the new location
+        setMarker(newCenter); // Update marker position
+      } else {
+        console.error("Place details are missing location information.");
+      }
     }
   };
 
-  useEffect(() => {
-    // console.log(import.meta.env.VITE_MAPS_API_KEY);
-    
-    getLocation();
-  }, []);
-
-  useEffect(() => {
-    controls.start({ y: window.innerHeight - sheetHeight })
-  }, [controls, sheetHeight])
-
-  const handleDrag = (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
-    const currentY = info.point.y
-    const newHeight = window.innerHeight - currentY
-    if (newHeight >= 80 && newHeight <= window.innerHeight) {
-      setSheetHeight(newHeight)
-    }
+  if (!isLoaded) {
+    return <div>Loading...</div>;
   }
 
-  const handleDragEnd = (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
-    const currentY = info.point.y
-    const newHeight = window.innerHeight - currentY
-    const clampedHeight = Math.min(Math.max(newHeight, 80), window.innerHeight)
-    setSheetHeight(clampedHeight)
+  if (loadError) {
+    return <div>Error loading maps.</div>;
   }
 
-  const close = () => {
-    controls.start({ 
-      y: window.innerHeight,
-      transition: { type: "tween", duration: 0.2, ease: "easeOut" }
-    })
-    setTimeout(() => setIsOpen(false), 200)
-  }
+  // ✅ Define `squareMarker` **after** maps are loaded
+  const squareMarker = {
+    url: "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(`
+      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24">
+        <rect x="3" y="3" width="18" height="18" rx="2" fill="black" stroke="black" stroke-width="2"/>
+        <rect x="8" y="8" width="8" height="8" rx="1" fill="white" stroke="black" stroke-width="2"/>
+      </svg>
+    `),
+    scaledSize: new window.google.maps.Size(30, 30),
+  };
 
   return (
-    <div className="h- overflow-y-hidden">
-            <div className="absolute left-0 right-0 bg-white  top-5 p-2 rounded-3xl z-50 flex items-center mx-6">
-                <Search className="ml-4" />
-                <input
-                  type="text"
-                  placeholder="Search places"
-                  className="w-full p-2 pl-3.5 pr-4 border-none rounded-full text-sm text-gray-800 focus:outline-none placeholder-gray-500"
-                  style={{ marginLeft: 'auto', marginRight: 'auto' }}  // this centers the input
-                />
-      </div>
-       <APIProvider apiKey={import.meta.env.VITE_MAPS_API_KEY || ''}>
-        <div style={{ height: "100vh", width: "100%" }}>
-          <Map
-            defaultZoom={14}
-            defaultCenter={{
-              lat: 19.0364,
-              lng: 72.8595
-            }}
-            gestureHandling="greedy"
-            disableDefaultUI={true} // Disable all default UI elements
-            styles={{ // Optionally set map styles to remove satellite view
-              styles: [
-                {
-                  featureType: "all",
-                  elementType: "labels",
-                  stylers: [
-                    { visibility: "off" } // Hide labels if needed
-                  ]
-                },
-                {
-                  featureType: "road",
-                  elementType: "geometry",
-                  stylers: [
-                    { visibility: "simplified" }  //Optional: Simplify road view
-                  ]
-                },
-                {
-                  featureType: "transit",
-                  stylers: [
-                    { visibility: "off" } // Hide transit features
-                  ]
-                },
-                {
-                  featureType: "poi",
-                  stylers: [
-                    { visibility: "off" } // Hide points of interest
-                  ]
-                },
-                {
-                  featureType: "administrative",
-                  elementType: "geometry",
-                  stylers: [
-                    { visibility: "off" } // Hide administrative boundaries
-                  ]
-                }
-
-              ]
-            }}
+    <div className="h-screen w-full relative">
+      <div className="map">
+        {/* Search Bar */}
+      <div className="absolute top-5 left-0 right-0 px-6 z-10">
+        <div className="flex items-center justify-start bg-white rounded-full shadow-lg p-2 w-full max-w-md">
+          <div className="pl-3 pr-2">
+            <Search className="text-gray-500" size={20} />
+          </div>
+          <Autocomplete
+            onLoad={(autocomplete) => (autocompleteRef.current = autocomplete)}
+            onPlaceChanged={onPlaceChanged}
           >
-            <Marker position={{
-              lat: 19.0364,
-              lng: 72.8595
-            }} />
-
-          </Map>
-        </div>
-      </APIProvider>
-      
-      <AnimatePresence>
-        {isOpen && (
-          <>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: sheetHeight === window.innerHeight ? 0.4 : 0 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black"
-              onClick={() => setSheetHeight(window.innerHeight * 0.6)}
+            <input
+              type="text"
+              placeholder="Search..."
+              className="w-full py-2 pl-2 pr-4 rounded-full focus:outline-none"
             />
-            <motion.div
-              drag="y"
-              onDrag={handleDrag}
-              onDragEnd={handleDragEnd}
-              dragElastic={0}
-              initial={{ y: window.innerHeight }}
-              animate={{ y: window.innerHeight - sheetHeight }}
-              exit={{ y: window.innerHeight }}
-              transition={{ type: "tween", duration: 0.2, ease: "easeOut" }}
-              className="fixed bottom-0 left-0 right-0 bg-background rounded-t-[32px] shadow-2xl"
-              style={{ height: window.innerHeight }}
-            >
-              <div ref={constraintsRef} className="h-full">
-                <div className="pt-3 pb-2 text-center">
-                  <div className="mx-auto h-1.5 w-12 rounded-full bg-muted" />
-                </div>
-                <div className="px-6 pb-4 flex items-center justify-between border-b">
-                  <h2 className="text-xl font-semibold">Available Parking</h2>
-                  <button onClick={close} className="rounded-full p-2 hover:bg-muted transition-colors">
-                    <X className="h-6 w-6" />
-                  </button>
-                </div>
-                <div className="overflow-y-auto px-6" style={{ height: `calc(100% - 80px)`, paddingBottom: sheetHeight <= 120 ? "0px" : "2rem" }}>
-                  <div className="space-y-4 py-4">
-                    <ParkingSpotCard name="Downtown Parking Garage" image="/placeholder.svg?height=200&width=300" distance="0.5 miles" time="5 min" rating={4.5} price="$5/hr" availableSpots={12} />
-                    <ParkingSpotCard name="Central Plaza Parking" image="/placeholder.svg?height=200&width=300" distance="0.8 miles" time="8 min" rating={4.2} price="$4/hr" availableSpots={8} />
-                    <ParkingSpotCard name="Riverside Parking Lot" image="/placeholder.svg?height=200&width=300" distance="1.2 miles" time="12 min" rating={3.8} price="$3/hr" availableSpots={2000} />
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
+          </Autocomplete>
+        </div>
+      </div>
+
+      {/* Google Map */}
+      <div className="h-full w-full">
+        <GoogleMap
+          zoom={15}
+          center={mycenter}
+          mapContainerClassName="map-container"
+          options={mapOptions}
+          onLoad={onLoad}
+          onUnmount={onUnmount}
+        >
+          {/* Add markers */}
+          {marker && <Marker icon={squareMarker} position={marker} />}
+          
+        </GoogleMap>
+      </div>
+
+     {
+      isOpen && ( <div className="drawer">
+         <Drawer isOpen={isOpen} setIsOpen={setIsOpen} initialHeight={300} minHeight={100} maxHeight={window.innerHeight * 0.9}>
+        <div className="space-y-4 px-4">
+          {PARKING_SPOTS.map((spot, index) => (
+            <ParkingSpotCard key={index} {...spot} />
+          ))}
+        </div>
+      </Drawer>
+      </div>)
+     }
+
+      </div>
     </div>
-  )
-}
+  );
+};
+
+export default ParkingSpotSearch;
