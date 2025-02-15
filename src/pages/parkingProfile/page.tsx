@@ -1,6 +1,7 @@
 // ParkingSpotProfile.tsx
 import { Star, MapPin, Clock, Shield, ArrowLeft, Calendar } from "lucide-react";
 import ReviewSection from "./ReviewSection";
+import { useNavigate } from "react-router-dom";
 
 const spot = {
   id: 1,
@@ -143,10 +144,13 @@ const spot = {
 };
 
 const ParkingSpotProfile = () => {
+
+  const navigate =useNavigate()
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <button className="mb-6 flex items-center text-gray-600 hover:text-gray-800">
-        <ArrowLeft className="w-5 h-5 mr-2" />
+        <ArrowLeft className="w-5 h-5 mr-2" onClick={()=>navigate(-1)}/>
         Back to results
       </button>
 

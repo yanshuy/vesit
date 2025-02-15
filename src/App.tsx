@@ -4,10 +4,14 @@ import EventPage from "./pages/events/page";
 import CalendarPage from "./pages/calendar/page";
 import ParkingSpotList from "./pages/parkingSpot/page";
 import ParkingSpotProfile from "./pages/parkingProfile/page";
+import SelectTimeSlot from "./pages/SelectTimeSlot";
+import ThreeDParking from "./components/3DPark";
+;
 
 export const BASE_URL = "https://natural-ape-severely.ngrok-free.app";
 import AuthForm from "./pages/auth-form/auth-form";
 import { AuthProvider } from "./lib/auth";
+import ParkingModel from "./pages/ParkingModel/page";
 import ParkingSpotSearch from "./pages/search-parking-spot/ParkingSpotSearch";
 import DemoPage from "./pages/demo-page/DemoPage";
 
@@ -15,11 +19,16 @@ function App() {
     return (
         <BrowserRouter>
             <Routes>
-                
-        <Route path="login" element={<AuthProvider><AuthForm/></AuthProvider>} />
-        
-        
-        <Route path="/" element={<MainLayout />}>
+                <Route
+                    path="login"
+                    element={
+                        <AuthProvider>
+                            <AuthForm />
+                        </AuthProvider>
+                    }
+                />
+                <Route path="pp" element={<ParkingModel />}></Route>
+                <Route path="/" element={<MainLayout />}>
                     <Route path="events/:id" element={<EventPage />} />
                     <Route path="calendar" element={<CalendarPage />} />
                     <Route path="parking-spots" element={<ParkingSpotList />} />
@@ -35,6 +44,7 @@ function App() {
                         path="demopage"
                         element={<DemoPage/>}
                     />
+                    
                     <Route path="*" element={<h1>Not Found</h1>} />
                 </Route>
             </Routes>
