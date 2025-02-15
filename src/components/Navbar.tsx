@@ -1,7 +1,21 @@
-import { useState, useEffect } from 'react';
-import { Menu, Home, User, Settings, X, Car, Calendar, CreditCard, User2Icon, LogOutIcon, CalendarClock, Map } from 'lucide-react';
-import { Link, useLocation, Outlet } from 'react-router-dom';
-import Logo from '/src/assets/parkingicon.png'
+import { useState, useEffect } from "react";
+import {
+    Menu,
+    Home,
+    User,
+    Settings,
+    X,
+    Car,
+    Calendar,
+    CreditCard,
+    User2Icon,
+    LogOutIcon,
+    CalendarClock,
+    Map,
+    WashingMachine,
+} from "lucide-react";
+import { Link, useLocation, Outlet } from "react-router-dom";
+import Logo from "/src/assets/parkingicon.png";
 
 const Navbar = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -14,14 +28,15 @@ const Navbar = () => {
         setIsSidebarOpen(false);
     }, [location.pathname]);
 
-  // Enhanced navigation items with better organization
-  const navigationItems = [
-    { icon: Home, label: 'Home', path: '/' },
-    { icon: CalendarClock, label: 'Bookings', path: '/my-bookings' },
-    { icon: Map, label: 'Map', path: '/map' },
-    { icon: CreditCard, label: 'Payments', path: '/my-payment-options' },
-    { icon: Settings, label: 'Settings', path: '/settings' },
-  ];
+    // Enhanced navigation items with better organization
+    const navigationItems = [
+        { icon: Home, label: "Home", path: "/" },
+        { icon: CalendarClock, label: "Bookings", path: "/my-bookings" },
+        { icon: Map, label: "Map", path: "/map" },
+        { icon: CreditCard, label: "Payments", path: "/my-payment-options" },
+        { icon: Settings, label: "Settings", path: "/settings" },
+        { icon: WashingMachine, label: "Gui", path: "/gui" },
+    ];
 
     const handleLogout = () => {
         localStorage.removeItem("accessToken");
@@ -82,10 +97,16 @@ const Navbar = () => {
                     {/* Logo and Close Button */}
                     <div className="mb-6 flex items-center justify-between">
                         <Link to="/" className="flex items-center gap-2 pl-2">
-                          <div className='h-9 w-9 mr-2'>
-                            <img src={Logo} alt='Logo' className='h-full object-cover md:-translate-y-1 -translate-y-1'/>
-                          </div>
-                          <span className="font-semibold text-[1.6rem] max-md:translate-y-1">Parko</span>
+                            <div className="mr-2 h-9 w-9">
+                                <img
+                                    src={Logo}
+                                    alt="Logo"
+                                    className="h-full -translate-y-1 object-cover md:-translate-y-1"
+                                />
+                            </div>
+                            <span className="text-[1.6rem] font-semibold max-md:translate-y-1">
+                                Parko
+                            </span>
                         </Link>
                         <button
                             onClick={() => setIsSidebarOpen(false)}
@@ -95,103 +116,113 @@ const Navbar = () => {
                         </button>
                     </div>
 
-          {/* Navigation Links */}
-          <nav className="space-y-1 flex-1">
-            {navigationItems.map((item) => {
-              const isActive = location.pathname === item.path;
-              if (item.path === '/') return null;
-              return (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  className={`flex items-center gap-3 p-3 rounded-lg transition-colors duration-200
-                    ${isActive 
-                      ? 'bg-violet-50 text-violet-600' 
-                      : 'text-gray-600 hover:bg-gray-100'}`}
-                >
-                  <item.icon className={`w-5 h-5 ${isActive ? 'text-violet-600' : 'text-gray-500'}`} />
-                  <span className={`font-medium ${isActive ? 'text-violet-600' : 'text-gray-700'}`}>
-                    {item.label}
-                  </span>
-                </Link>
-              );
-            })}
-          </nav>
-        </div>
-      </div>
-
-        {/* Top Navbar - half visible on mobile, full visible on website */}
-        <nav className="fixed top-0 left-0 right-0 flex items-center justify-between md:px-12 px-4 bg-white shadow-sm z-20 pt-5 pb-2 h-20">
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => setIsSidebarOpen(true)}
-              className="p-2 hover:bg-gray-100 rounded-lg md:hidden mr-4"
-            >
-              <Menu className="w-6 h-6" />
-            </button>
-            <div className='h-9 w-9 mr-2'>
-              <img src={Logo} alt='Logo' className='h-full object-cover md:-translate-y-1 -translate-y-1'/>
-            </div>
-            <span className="font-semibold text-[1.6rem] max-md:translate-y-1">Parko</span>
-          </div>
-          <div className="flex max-md:hidden">
-            {navigationItems.map((item) => {
-              if(item.label === 'Settings') return null;
-              return (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  className={`flex items-center gap-3 p-3 rounded-lg transition-colors duration-200
-                    hover:text-violet-500`}
-                >
-                  <span className={`font-medium`}>
-                    {item.label}
-                  </span>
-                </Link>
-              );
-            })}
-          </div>
-          {!isLoggedIn ? (
-            <Link to={"/login"}>
-              <button className="cursor-pointer text-indigo-600 hover:text-indigo-700 border border-indigo-500 font-medium px-4 py-2 rounded-md transition-colors duration-200 focus:outline-none">
-                Log In
-              </button>
-            </Link>
-          ) : (
-            <div className="relative">
-              <button
-                className="ml-4 flex items-center justify-center h-10 w-10 rounded-full bg-gray-100 hover:bg-gray-200 focus:outline-none transition-colors duration-200 cursor-pointer"
-                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                aria-label="User menu"
-              >
-                <User2Icon className="h-5 w-5 text-gray-700 " />
-              </button>
-              {isDropdownOpen && (
-                <div
-                  className="absolute right-0 mt-2 w-48 rounded-md shadow-xl bg-white border border-gray-200 focus:outline-none"
-                  tabIndex={0}
-                  onBlur={() => setIsDropdownOpen(false)}
-                >
-                  <div
-                    className="py-1"
-                    role="menu"
-                    aria-orientation="vertical"
-                    aria-labelledby="user-menu-button"
-                  >
-                    <button
-                      onClick={handleLogout}
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-indigo-600 w-full text-left"
-                      role="menuitem"
-                    >
-                      <LogOutIcon className="h-4 w-4 mr-2 inline-block align-middle" />
-                      Logout
-                    </button>
-                  </div>
+                    {/* Navigation Links */}
+                    <nav className="flex-1 space-y-1">
+                        {navigationItems.map((item) => {
+                            const isActive = location.pathname === item.path;
+                            if (item.path === "/") return null;
+                            return (
+                                <Link
+                                    key={item.path}
+                                    to={item.path}
+                                    className={`flex items-center gap-3 rounded-lg p-3 transition-colors duration-200 ${
+                                        isActive
+                                            ? "bg-purple-50 text-purple-600"
+                                            : "text-gray-600 hover:bg-gray-100"
+                                    }`}
+                                >
+                                    <item.icon
+                                        className={`h-5 w-5 ${isActive ? "text-purple-600" : "text-gray-500"}`}
+                                    />
+                                    <span
+                                        className={`font-medium ${isActive ? "text-purple-600" : "text-gray-700"}`}
+                                    >
+                                        {item.label}
+                                    </span>
+                                </Link>
+                            );
+                        })}
+                    </nav>
                 </div>
-              )}
             </div>
-          )}
-        </nav>
+
+            {/* Top Navbar - half visible on mobile, full visible on website */}
+            <nav className="fixed top-0 right-0 left-0 z-20 flex h-20 items-center justify-between bg-white px-4 pt-5 pb-2 shadow-sm md:px-12">
+                <div className="flex items-center gap-2">
+                    <button
+                        onClick={() => setIsSidebarOpen(true)}
+                        className="mr-4 rounded-lg p-2 hover:bg-gray-100 md:hidden"
+                    >
+                        <Menu className="h-6 w-6" />
+                    </button>
+                    <div className="mr-2 h-9 w-9">
+                        <img
+                            src={Logo}
+                            alt="Logo"
+                            className="h-full -translate-y-1 object-cover md:-translate-y-1"
+                        />
+                    </div>
+                    <span className="text-[1.6rem] font-semibold max-md:translate-y-1">
+                        Parko
+                    </span>
+                </div>
+                <div className="flex max-md:hidden">
+                    {navigationItems.map((item) => {
+                        if (item.label === "Settings") return null;
+                        return (
+                            <Link
+                                key={item.path}
+                                to={item.path}
+                                className={`flex items-center gap-3 rounded-lg p-3 transition-colors duration-200 hover:text-violet-500`}
+                            >
+                                <span className={`font-medium`}>
+                                    {item.label}
+                                </span>
+                            </Link>
+                        );
+                    })}
+                </div>
+                {!isLoggedIn ? (
+                    <Link to={"/login"}>
+                        <button className="cursor-pointer rounded-md border border-indigo-500 px-4 py-2 font-medium text-indigo-600 transition-colors duration-200 hover:text-indigo-700 focus:outline-none">
+                            Log In
+                        </button>
+                    </Link>
+                ) : (
+                    <div className="relative">
+                        <button
+                            className="ml-4 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-gray-100 transition-colors duration-200 hover:bg-gray-200 focus:outline-none"
+                            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                            aria-label="User menu"
+                        >
+                            <User2Icon className="h-5 w-5 text-gray-700" />
+                        </button>
+                        {isDropdownOpen && (
+                            <div
+                                className="absolute right-0 mt-2 w-48 rounded-md border border-gray-200 bg-white shadow-xl focus:outline-none"
+                                tabIndex={0}
+                                onBlur={() => setIsDropdownOpen(false)}
+                            >
+                                <div
+                                    className="py-1"
+                                    role="menu"
+                                    aria-orientation="vertical"
+                                    aria-labelledby="user-menu-button"
+                                >
+                                    <button
+                                        onClick={handleLogout}
+                                        className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 hover:text-indigo-600"
+                                        role="menuitem"
+                                    >
+                                        <LogOutIcon className="mr-2 inline-block h-4 w-4 align-middle" />
+                                        Logout
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                )}
+            </nav>
 
             {/* Mobile Overlay */}
             {isSidebarOpen && (

@@ -33,12 +33,12 @@ const ParkingLot = ({ parkingSlots, onSlotSelect }) => {
     const isDragging = useRef(false);
     const lastPosition = useRef({ x: 0, y: 0 });
 
-    // const handleWheel = (event) => {
-    //     event.preventDefault();
-    //     let newScale = scale + event.deltaY * -0.001;
-    //     newScale = Math.min(Math.max(newScale, 0.5), 3);
-    //     setScale(newScale);
-    // };
+    const handleWheel = (event) => {
+        event.preventDefault();
+        let newScale = scale + event.deltaY * -0.001;
+        newScale = Math.min(Math.max(newScale, 0.5), 3);
+        setScale(newScale);
+    };
 
     const handleMouseDown = (event) => {
         isDragging.current = true;
@@ -95,7 +95,6 @@ const ParkingLot = ({ parkingSlots, onSlotSelect }) => {
 
             <div
                 className="h-full w-full overflow-hidden"
-                // onWheel={handleWheel}
                 onMouseMove={handleMouseMove}
                 onMouseDown={handleMouseDown}
                 onMouseUp={handleMouseUp}
@@ -206,12 +205,8 @@ export default function ParkingLotMap() {
         <div className="relative mx-auto max-w-6xl space-y-6 p-6">
             <div>
                 <h1 className="text-3xl font-bold text-gray-900">
-                    Interactive Parking Lot
+                    Parking Lot
                 </h1>
-                <p className="mt-2 text-gray-600">
-                    Use mouse wheel or pinch to zoom. Click and drag to pan.
-                    Click on an available parking spot to select/deselect it.
-                </p>
             </div>
 
             <ParkingLot

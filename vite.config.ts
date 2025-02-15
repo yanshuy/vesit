@@ -61,6 +61,6 @@ export default defineConfig({
         allowedHosts: true,
     },
     preview: {
-        allowedHosts: ["*"],
+        allowedHosts: true,
     },
 });
