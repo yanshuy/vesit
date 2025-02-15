@@ -8,7 +8,7 @@ const BottomNav = () => {
   const navigationItems = [
     { icon: Home, path: '/' },
     { icon: Timer, path: '/parking-model' },
-    { icon: Calendar, path: '/gcal' },
+    { icon: Calendar, path: '/calendar' },
     { icon: User, path: '/profile' },
   ]
 

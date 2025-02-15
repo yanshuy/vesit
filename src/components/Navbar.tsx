@@ -128,7 +128,7 @@ const Navbar = () => {
             </div>
             <span className="font-semibold text-[1.6rem] max-md:translate-y-1">Parko</span>
           </div>
-          <div className="flex">
+          <div className="flex max-md:hidden">
             {navigationItems.map((item) => {
               return (
                 <Link

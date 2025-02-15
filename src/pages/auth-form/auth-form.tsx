@@ -52,7 +52,7 @@ export default function AuthForm() {
   }
 
   return (
-    <div className="min-h-screen grid place-items-center">
+    <div className="min-h-screen grid place-items-center max-md:px-8">
     <Card className="w-full max-w-md">
       <Tabs value={activeTab} onValueChange={setActiveTab}>
         <TabsList className="grid w-full grid-cols-2">
