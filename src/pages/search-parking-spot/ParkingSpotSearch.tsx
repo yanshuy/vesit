@@ -81,7 +81,7 @@ export default function ParkingSpotSearch() {
 
   return (
     <>
-      {/* <APIProvider apiKey={import.meta.env.VITE_MAPS_API_KEY || ''}> 
+      <APIProvider apiKey={import.meta.env.VITE_MAPS_API_KEY || ''}> 
         <div className="h-screen">
           <Map 
             zoom={9} 
@@ -91,9 +91,9 @@ export default function ParkingSpotSearch() {
             }} 
           />
         </div>
-      </APIProvider> */}
+      </APIProvider>
       
-      <AnimatePresence>
+      {/* <AnimatePresence>
         {isOpen && (
           <>
             <motion.div
@@ -136,7 +136,7 @@ export default function ParkingSpotSearch() {
             </motion.div>
           </>
         )}
-      </AnimatePresence>
+      </AnimatePresence> */}
     </>
   )
 }
