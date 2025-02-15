@@ -8,13 +8,15 @@ import SelectTimeSlot from "./pages/SelectTimeSlot";
 import AuthForm from "./pages/auth-form/auth-form";
 import { AuthProvider } from "./lib/auth";
 import ParkingModel from "./pages/ParkingModel/page";
-import Payment from "./FastBooking/Payments/page";
+import Payment from "./GUI/Payments/page";
 import GoogleCalendarIntegration from "./components/GoogleCalendarIntegration";
 import ParkingSpotSearch from "./pages/search-parking-spot/ParkingSpotSearch";
 import DemoPage from "./pages/demo-page/DemoPage";
 import Home from "./pages/Home";
 import { Toaster } from "./components/ui/toaster";
 import PaymentForm from "./pages/PaymentGateway/page";
+import GUI from "./GUI/page";
+import ParkingLotMap from "./GUI/ParkingLotMap/page";
 
 export const BASE_URL =
     "https://vesit-asb3b4e7dye8d0ck.canadacentral-01.azurewebsites.net/";
@@ -32,7 +34,12 @@ function App() {
                         </AuthProvider>
                     }
                 />
-                <Route path="payment" element={<PaymentForm />}></Route>
+                <Route path="gui">
+                    <Route index element={<GUI />}></Route>
+                    <Route path="map/1" element={<ParkingLotMap />}></Route>
+                    <Route path="payment" element={<PaymentForm />}></Route>
+                </Route>
+
                 <Route path="pp" element={<ParkingModel />}></Route>
                 <Route path="gcal" element={<GoogleCalendarIntegration />} />
                 <Route path="pay" element={<Payment />} />
