@@ -4,6 +4,9 @@ import EventPage from "./pages/events/page";
 import CalendarPage from "./pages/calendar/page";
 import ParkingSpotList from "./pages/parkingSpot/page";
 import ParkingSpotProfile from "./pages/parkingProfile/page";
+import SelectTimeSlot from "./pages/SelectTimeSlot";
+import ThreeDParking from "./components/3DPark";
+;
 
 function App() {
   return (
@@ -14,6 +17,8 @@ function App() {
           <Route path="calendar" element={<CalendarPage />} />
           <Route path="parking-spots" element={<ParkingSpotList />} />
           <Route path="parking-spots/:id" element={<ParkingSpotProfile />} />
+          <Route path="parking-spots/:id/selecttime" element={<SelectTimeSlot />} />
+          <Route path="3d" element={<ThreeDParking />} />
           <Route path="*" element={<h1>Not Found</h1>} />
         </Route>
       </Routes>
