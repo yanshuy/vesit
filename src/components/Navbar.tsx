@@ -12,6 +12,7 @@ import {
     LogOutIcon,
     CalendarClock,
     Map,
+    Brain,
     WashingMachine,
 } from "lucide-react";
 import { Link, useLocation, Outlet } from "react-router-dom";
@@ -33,6 +34,7 @@ const Navbar = () => {
         { icon: Home, label: "Home", path: "/" },
         { icon: CalendarClock, label: "Bookings", path: "/my-bookings" },
         { icon: Map, label: "Map", path: "/map" },
+        { icon: Brain, label: "Smart Analysis", path: "/analysis" },
         { icon: CreditCard, label: "Payments", path: "/my-payment-options" },
         { icon: Settings, label: "Settings", path: "/settings" },
         // { icon: WashingMachine, label: "GUI", path: "/gui" },
