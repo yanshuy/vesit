@@ -1,141 +1,230 @@
 import React, { useState, useMemo, useEffect, useRef, useCallback } from "react";
 import { GoogleMap, useLoadScript, Autocomplete, Marker } from "@react-google-maps/api";
 import { ArrowLeft, Search } from "lucide-react";
+import { useLocation, useNavigate } from "react-router-dom";
 import Drawer from "../../assets/Drawer";
 import ParkingSpotCard from "../../components/ParkingSpotCard";
-import { useNavigate } from "react-router-dom";
-
 
 
 const PARKING_SPOTS = [
   {
-    name: "Downtown Parking Garage",
+    name: "Trios Fashion Mall Parking",
     image: "/placeholder.svg?height=200&width=400",
-    distance: "0.2 miles",
-    time: "5 min walk",
-    rating: 4.5,
-    price: "$8/hr",
-    availableSpots: 25,
-    coordinates: { lat: 40.7128, lng: -74.0060 }
-  },
-  {
-    name: "Downtown Parking Garage",
-    image: "/placeholder.svg?height=200&width=400",
-    distance: "0.2 miles",
-    time: "5 min walk",
-    rating: 4.5,
-    price: "$8/hr",
-    availableSpots: 25,
-    coordinates: { lat: 40.7135, lng: -74.0055 }
-  },
-  {
-    name: "Downtown Parking Garage",
-    image: "/placeholder.svg?height=200&width=400",
-    distance: "0.2 miles",
-    time: "5 min walk",
-    rating: 4.5,
-    price: "$8/hr",
-    availableSpots: 25,
-    coordinates: { lat: 40.7140, lng: -74.0065 }
-  },
-  {
-    name: "Downtown Parking Garage",
-    image: "/placeholder.svg?height=200&width=400",
-    distance: "0.2 miles",
-    time: "5 min walk",
-    rating: 4.5,
-    price: "$8/hr",
-    availableSpots: 25,
-    coordinates: { lat: 40.7122, lng: -74.0070 }
-  },
-  {
-    name: "Downtown Parking Garage",
-    image: "/placeholder.svg?height=200&width=400",
-    distance: "0.2 miles",
-    time: "5 min walk",
-    rating: 4.5,
-    price: "$8/hr",
-    availableSpots: 25,
-    coordinates: { lat: 40.7118, lng: -74.0062 }
-  },
-  {
-    name: "Downtown Parking Garage",
-    image: "/placeholder.svg?height=200&width=400",
-    distance: "0.2 miles",
-    time: "5 min walk",
-    rating: 4.5,
-    price: "$8/hr",
-    availableSpots: 25,
-    coordinates: { lat: 40.7130, lng: -74.0050 }
-  },
-  {
-    name: "Downtown Parking Garage",
-    image: "/placeholder.svg?height=200&width=400",
-    distance: "0.2 miles",
-    time: "5 min walk",
-    rating: 4.5,
-    price: "$8/hr",
-    availableSpots: 25,
-    coordinates: { lat: 40.7125, lng: -74.0075 }
-  },
-  {
-    name: "Central Station Parking",
-    image: "/placeholder.svg?height=200&width=400",
-    distance: "0.5 miles",
-    time: "10 min walk",
-    rating: 4.0,
-    price: "$5/hr",
-    availableSpots: 42,
-    coordinates: { lat: 40.7150, lng: -74.0100 }
-  },
-  {
-    name: "Market Street Garage",
-    image: "/placeholder.svg?height=200&width=400",
-    distance: "0.8 miles",
-    time: "15 min walk",
-    rating: 4.8,
-    price: "$10/hr",
-    availableSpots: 15,
-    coordinates: { lat: 40.7170, lng: -74.0120 }
-  },
-  {
-    name: "Convention Center Parking",
-    image: "/placeholder.svg?height=200&width=400",
-    distance: "1.0 miles",
-    time: "20 min walk",
-    rating: 3.5,
-    price: "$6/hr",
-    availableSpots: 80,
-    coordinates: { lat: 40.7200, lng: -74.0150 }
-  },
-  {
-    name: "River View Parking",
-    image: "/placeholder.svg?height=200&width=400",
-    distance: "1.2 miles",
-    time: "25 min walk",
+    distance: "Varies",
+    time: "Varies",
     rating: 4.2,
-    price: "$7/hr",
-    availableSpots: 35,
-    coordinates: { lat: 40.7230, lng: -74.0180 }
+    price: "Varies",
+    availableSpots: 92,
+    coordinates: { lat: 19.0544, lng: 72.8331 },
+    address: "Hill Road, Bandra West, Mumbai, Maharashtra 400050"
   },
-]
+  {
+    name: "Runwal Greens Parking",
+    image: "/placeholder.svg?height=200&width=400",
+    distance: "Varies",
+    time: "Varies",
+    rating: 4.5,
+    price: "Varies",
+    availableSpots: 1152,
+    coordinates: { lat: 19.1570, lng: 72.9355 },
+    address: "GMLR Road, Nahur West, Mumbai, Maharashtra 400078"
+  },
+  {
+    name: "Indiabulls Finance Center Parking",
+    image: "/placeholder.svg?height=200&width=400",
+    distance: "Varies",
+    time: "Varies",
+    rating: 4.3,
+    price: "Varies",
+    availableSpots: 890,
+    coordinates: { lat: 19.0020, lng: 72.8306 },
+    address: "Senapati Bapat Marg, Lower Parel, Mumbai, Maharashtra 400013"
+  },
+  {
+    name: "Kalpataru Avana Parking",
+    image: "/placeholder.svg?height=200&width=400",
+    distance: "Varies",
+    time: "Varies",
+    rating: 4.1,
+    price: "Varies",
+    availableSpots: 553,
+    coordinates: { lat: 18.9935, lng: 72.8415 },
+    address: "Gen Nagesh Marg, Parel, Mumbai, Maharashtra 400012"
+  },
+  {
+    name: "MCGM Parking Lot Andheri",
+    image: "/placeholder.svg?height=200&width=400",
+    distance: "Varies",
+    time: "Varies",
+    rating: 3.9,
+    price: "Varies",
+    availableSpots: 144,
+    coordinates: { lat: 19.1197, lng: 72.8468 },
+    address: "Jay Prakash Road, Andheri West, Mumbai, Maharashtra 400058"
+  },
+  {
+    name: "Boomerang Building Parking",
+    image: "/placeholder.svg?height=200&width=400",
+    distance: "Varies",
+    time: "Varies",
+    rating: 4.0,
+    price: "Varies",
+    availableSpots: 161,
+    coordinates: { lat: 19.1154, lng: 72.8880 },
+    address: "Chandivali Farm Road, Kurla West, Mumbai, Maharashtra 400072"
+  },
+  {
+    name: "Lodha The World Towers Parking",
+    image: "/placeholder.svg?height=200&width=400",
+    distance: "Varies",
+    time: "Varies",
+    rating: 4.7,
+    price: "Varies",
+    availableSpots: 3856,
+    coordinates: { lat: 18.9949, lng: 72.8258 },
+    address: "Senapati Bapat Marg, Lower Parel, Mumbai, Maharashtra 400013"
+  },
+  {
+    name: "Runwal Cumballa Hill Parking",
+    image: "/placeholder.svg?height=200&width=400",
+    distance: "Varies",
+    time: "Varies",
+    rating: 4.4,
+    price: "Varies",
+    availableSpots: 57,
+    coordinates: { lat: 18.9685, lng: 72.8055 },
+    address: "Nepeansea Road, Mumbai, Maharashtra 400006"
+  },
+  {
+    name: "MCGM Parking Lot Powai",
+    image: "/placeholder.svg?height=200&width=400",
+    distance: "Varies",
+    time: "Varies",
+    rating: 3.8,
+    price: "Varies",
+    availableSpots: 185,
+    coordinates: { lat: 19.1192, lng: 72.9056 },
+    address: "Saki Vihar Road, Powai, Mumbai, Maharashtra 400072"
+  },
+  {
+    name: "The Address by Wadhwa Parking",
+    image: "/placeholder.svg?height=200&width=400",
+    distance: "Varies",
+    time: "Varies",
+    rating: 4.6,
+    price: "Varies",
+    availableSpots: 824,
+    coordinates: { lat: 19.1350, lng: 72.9286 },
+    address: "LBS Marg, Vikhroli West, Mumbai, Maharashtra 400083"
+  }
+];
+
+const calculateDistance = (lat1, lon1, lat2, lon2) => {
+  const R = 6371; // Earth's radius in km
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a = 
+    Math.sin(dLat/2) * Math.sin(dLat/2) +
+    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
+    Math.sin(dLon/2) * Math.sin(dLon/2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  return R * c; // Distance in km
+}
 
 const ParkingSpotSearch = () => {
+  // Navigation and location hooks
+  const location = useLocation();
+  const navigate = useNavigate();
+  
+  // State management
+  const [center, setCenter] = useState({ lat: 19.0760, lng: 72.8777 }); // Mumbai coordinates
+  const [marker, setMarker] = useState(null);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [nearbySpots, setNearbySpots] = useState(PARKING_SPOTS);
+const [searchLocation, setSearchLocation] = useState(null);
+
+  
+  // Refs
   const mapRef = useRef(null);
   const autocompleteRef = useRef(null);
-  const [center, setCenter] = useState({ lat: 18.567, lng: 72.789 });
-  const [marker, setMarker] = useState(null);
-  const [isOpen, setIsOpen] = useState(true);
-  const navigate = useNavigate()
+  const searchInputRef = useRef(null);
   
+  // Get search query from location state
+  const initialSearch = location.state?.searchQuery || '';
 
+  // Memoized values
   const mycenter = useMemo(() => center, [center]);
+  const mapOptions = useMemo(() => ({
+    disableDefaultUI: true,
+    gestureHandling: "greedy",
+    zoomControl: true,
+    mapTypeControl: false,
+    streetViewControl: false,
+  }), []);
 
+  // Load Google Maps
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: import.meta.env.VITE_MAPS_API_KEY || "",
     libraries: ["places"],
   });
 
+  // Custom marker style
+  const squareMarker = isLoaded ? {
+    url: "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(`
+      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24">
+        <rect x="3" y="3" width="18" height="18" rx="2" fill="black" stroke="black" stroke-width="2"/>
+        <rect x="8" y="8" width="8" height="8" rx="1" fill="white" stroke="black" stroke-width="2"/>
+      </svg>
+    `),
+    scaledSize: new window.google.maps.Size(30, 30),
+  } : null;
+
+  // Callbacks
+  const onLoad = useCallback((map) => {
+    mapRef.current = map;
+  }, []);
+
+  const onUnmount = useCallback(() => {
+    mapRef.current = null;
+  }, []);
+
+  const onPlaceChanged = useCallback(() => {
+    if (autocompleteRef.current) {
+      const place = autocompleteRef.current.getPlace();
+      if (place.geometry) {
+        const newLocation = {
+          lat: place.geometry.location.lat(),
+          lng: place.geometry.location.lng(),
+        };
+        setCenter(newLocation);
+        setMarker(newLocation);
+        setSearchLocation(newLocation);
+        
+        // Calculate distances and sort parking spots
+        const spotsWithDistance = PARKING_SPOTS.map(spot => ({
+          ...spot,
+          distance: calculateDistance(
+            newLocation.lat,
+            newLocation.lng,
+            spot.coordinates.lat,
+            spot.coordinates.lng
+          ).toFixed(1)
+        }));
+  
+        // Sort by distance and update nearby spots
+        const sortedSpots = spotsWithDistance.sort((a, b) => a.distance - b.distance);
+        setNearbySpots(sortedSpots);
+        setIsDrawerOpen(true);
+  
+        if (mapRef.current) {
+          mapRef.current.panTo(newLocation);
+        }
+      }
+    }
+  }, []);
+  
+
+  // Effects
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -147,121 +236,115 @@ const ParkingSpotSearch = () => {
         },
         (error) => {
           console.error("Error getting location:", error);
-          setCenter({ lat: 19.076, lng: 72.8777 }); // Mumbai fallback
         }
       );
-    } else {
-      setCenter({ lat: 19.076, lng: 72.8777 });
     }
   }, []);
 
-  const mapOptions = useMemo(
-    () => ({
-      disableDefaultUI: true,
-      gestureHandling: "greedy",
-      zoomControl: true,
-      mapTypeControl: false,
-      streetViewControl: false,
-    }),
-    []
-  );
-
-  const onLoad = useCallback((map) => {
-    mapRef.current = map;
-  }, []);
-
-  const onUnmount = useCallback(() => {
-    mapRef.current = null;
-  }, []);
-
-  const onPlaceChanged = () => {
-    if (autocompleteRef.current) {
-      const place = autocompleteRef.current.getPlace();
-
-      if (place.geometry && place.geometry.location) {
-        const newCenter = {
-          lat: place.geometry.location.lat(),
-          lng: place.geometry.location.lng(),
-        };
-        setCenter(newCenter);
-        mapRef.current?.panTo(newCenter); // Pan to the new location
-        setMarker(newCenter); // Update marker position
-      } else {
-        console.error("Place details are missing location information.");
-      }
+  useEffect(() => {
+    if (isLoaded && initialSearch && searchInputRef.current) {
+      searchInputRef.current.value = initialSearch;
+      const geocoder = new window.google.maps.Geocoder();
+      
+      geocoder.geocode({ address: initialSearch }, (results, status) => {
+        if (status === "OK" && results?.[0]) {
+          const location = results[0].geometry.location;
+          const newCenter = {
+            lat: location.lat(),
+            lng: location.lng(),
+          };
+          setCenter(newCenter);
+          setMarker(newCenter);
+          if (mapRef.current) {
+            mapRef.current.panTo(newCenter);
+          }
+        }
+      });
     }
-  };
+  }, [isLoaded, initialSearch]);
 
-  if (!isLoaded) {
-    return <div>Loading...</div>;
-  }
-
-  if (loadError) {
-    return <div>Error loading maps.</div>;
-  }
-
-  // ✅ Define `squareMarker` **after** maps are loaded
-  const squareMarker = {
-    url: "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(`
-      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24">
-        <rect x="3" y="3" width="18" height="18" rx="2" fill="black" stroke="black" stroke-width="2"/>
-        <rect x="8" y="8" width="8" height="8" rx="1" fill="white" stroke="black" stroke-width="2"/>
-      </svg>
-    `),
-    scaledSize: new window.google.maps.Size(30, 30),
-  };
+  if (!isLoaded) return <div className="h-screen flex items-center justify-center">Loading maps...</div>;
+  if (loadError) return <div className="h-screen flex items-center justify-center">Error loading maps</div>;
 
   return (
     <div className="h-screen w-full relative">
-      <ArrowLeft className="relative top-7 left-2 h-12 w-12 z-10  p-2 rounded-full bg-gray-50" onClick={() => navigate(-1)} />
+      <ArrowLeft 
+        className="relative top-7 left-2 h-12 w-12 z-10 p-2 rounded-full bg-gray-50 cursor-pointer" 
+        onClick={() => navigate(-1)} 
+      />
+      
       <div className="map">
         {/* Search Bar */}
-      <div className="absolute top-5 left-16 md:left-20 right-0 px-6 z-10">
-        <div className="flex items-center justify-start bg-white rounded-full shadow-lg p-2 w-full max-w-md">
-          <div className="pl-3 pr-2">
-            <Search className="text-gray-500" size={20} />
+        <div className="absolute top-5 left-16 md:left-20 right-0 px-6 z-10">
+          <div className="flex items-center justify-start bg-white rounded-full shadow-lg p-2 w-full max-w-md">
+            <div className="pl-3 pr-2">
+              <Search className="text-gray-500" size={20} />
+            </div>
+            <Autocomplete
+              onLoad={(autocomplete) => (autocompleteRef.current = autocomplete)}
+              onPlaceChanged={onPlaceChanged}
+            >
+              <input
+                ref={searchInputRef}
+                type="text"
+                placeholder="Search for parking..."
+                defaultValue={initialSearch}
+                className="w-full py-2 pl-2 pr-4 rounded-full focus:outline-none"
+              />
+            </Autocomplete>
           </div>
-          <Autocomplete
-            onLoad={(autocomplete) => (autocompleteRef.current = autocomplete)}
-            onPlaceChanged={onPlaceChanged}
+        </div>
+
+        {/* Google Map */}
+        <div className="h-full w-full">
+          <GoogleMap
+            zoom={15}
+            center={mycenter}
+            mapContainerClassName="map-container"
+            options={mapOptions}
+            onLoad={onLoad}
+            onUnmount={onUnmount}
           >
-            <input
-              type="text"
-              placeholder="Search..."
-              className="w-full py-2 pl-2 pr-4 rounded-full focus:outline-none"
-            />
-          </Autocomplete>
+            {marker && <Marker icon={squareMarker} position={marker} />}
+          </GoogleMap>
         </div>
+
+        {/* Drawer */}
+        {isDrawerOpen && (
+          <div className="drawer">
+        <Drawer 
+  isOpen={isDrawerOpen} 
+  setIsOpen={setIsDrawerOpen} 
+  initialHeight={300} 
+  minHeight={100} 
+  maxHeight={window.innerHeight * 0.9}
+>
+  <div className="space-y-4 px-4">
+    <div className="sticky top-0 bg-white py-2 font-semibold">
+      Nearby Parking Spots ({nearbySpots.length})
+    </div>
+    {nearbySpots.map((spot, index) => (
+      <div 
+        key={index}
+        onClick={() => {
+          setCenter(spot.coordinates);
+          setMarker(spot.coordinates);
+          mapRef.current?.panTo(spot.coordinates);
+        }}
+        className="cursor-pointer hover:bg-gray-50 transition-colors"
+      >
+        <ParkingSpotCard
+          {...spot}
+          distance={`${spot.distance}km away`}
+          time={`${Math.round(spot.distance * 2)} mins`}
+          price={`₹${Math.round(spot.distance * 10)}/hr`}
+        />
       </div>
-
-      {/* Google Map */}
-      <div className="h-full w-full">
-        <GoogleMap
-          zoom={15}
-          center={mycenter}
-          mapContainerClassName="map-container"
-          options={mapOptions}
-          onLoad={onLoad}
-          onUnmount={onUnmount}
-        >
-          {/* Add markers */}
-          {marker && <Marker icon={squareMarker} position={marker} />}
-          
-        </GoogleMap>
-      </div>
-
-     {
-      isOpen && ( <div className="drawer">
-         <Drawer isOpen={isOpen} setIsOpen={setIsOpen} initialHeight={300} minHeight={100} maxHeight={window.innerHeight * 0.9}>
-        <div className="space-y-4 px-4">
-          {PARKING_SPOTS.map((spot, index) => (
-            <ParkingSpotCard key={index} {...spot} />
-          ))}
-        </div>
-      </Drawer>
-      </div>)
-     }
-
+    ))}
+  </div>
+</Drawer>
+          </div>
+        )}
       </div>
     </div>
   );

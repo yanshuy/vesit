@@ -15,6 +15,7 @@ interface DrawerProps {
   minHeight?: number
   maxHeight?: number
   isOpen?:boolean
+  setIsOpen: any,
  
 }
 

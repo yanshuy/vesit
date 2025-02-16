@@ -52,10 +52,13 @@ const Home = () => {
     }
   }, []);
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle search logic here
-  };
+// Update the handleSearch function in Home.tsx
+const handleSearch = (e: React.FormEvent) => {
+  e.preventDefault();
+  if (searchQuery.trim()) {
+    navigate('/searchparkingspot', { state: { searchQuery } });
+  }
+};
 
   const truncateLocation = (location: string) => {
     const words = location.split(' ');
@@ -171,7 +174,7 @@ const Home = () => {
             id: '2',
             name: 'Pheonix Malls',
             address: '972 Street, Lefttown hurch, Near Shopping Mall',
-            price: 17000,
+            price: 70,
             available: true,
             time: 2,
             imageUrl: '/Parkingspots/1B.png',
