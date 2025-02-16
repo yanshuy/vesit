@@ -6,7 +6,7 @@ import Drawer from "../../assets/Drawer";
 import ParkingSpotCard from "../../components/ParkingSpotCard";
 
 
-const PARKING_SPOTS = [
+export const PARKING_SPOTS = [
   {
     name: "Trios Fashion Mall Parking",
     image: "https://cdn11.bigcommerce.com/s-64cbb/product_images/uploaded_images/tgtechnicalservices-246300-parking-garage-safer-blogbanner1.jpg",
