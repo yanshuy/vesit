@@ -24,6 +24,7 @@ import MyCurrentBooking from "./pages/MyCurrentBooking";
 import { QrReader } from "react-qr-reader";
 import QRScanner from "./components/QRScanner";
 import QRCodePage from "./components/GeneratedQr";
+import ParkingAnalysis from "./pages/ParkingAnalysis";
 
 export const BASE_URL =
     // "https://vesit-asb3b4e7dye8d0ck.canadacentral-01.azurewebsites.net";
@@ -61,6 +62,7 @@ function App() {
                 <Route path="/pp" element={<ParkingModel />}></Route>
                 <Route path="/gcal" element={<GoogleCalendarIntegration />} />
                 <Route path="/pay" element={<PaymentForm />} />
+                <Route path="analysis" element={<ParkingAnalysis />} />
                 <Route
                     path="/searchparkingspot"
                     element={<ParkingSpotSearch />}
