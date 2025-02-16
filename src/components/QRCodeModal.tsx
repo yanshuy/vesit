@@ -7,6 +7,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog"
+import { BASE_URL } from "../App"
 
 interface QRCodeModalProps {
   isOpen: boolean
@@ -28,7 +29,7 @@ export function QRCodeModal({ isOpen, onClose, qrCodeUrl, bookingCode }: QRCodeM
         <div className="flex flex-col items-center justify-center space-y-4">
           <div className="relative aspect-square w-full max-w-[256px] overflow-hidden rounded-lg border">
             <img 
-              src={qrCodeUrl || "/placeholder.svg"} 
+              src={`${BASE_URL}${qrCodeUrl}` || "/placeholder.svg"} 
               alt="Booking QR Code" 
               className="h-full w-full object-contain"
             />

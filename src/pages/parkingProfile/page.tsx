@@ -256,16 +256,15 @@ const ParkingSpotProfile = () => {
 
 
           {/* Mobile Booking Section */}
-          <Link to={'/parking-spots/'+spot.id+'/selecttime'}>
-            <button className="md:hidden flex justify-center items-center gap-2 rounded-lg px-4 py-2 w-full shadow-sm bg-violet-600 text-white mb-8">Next <ArrowRight className="h-5 w-5"/></button>
+          <Link to={"/parking-spots/1/selecttime"}>
+            <button className="hidden justify-center items-center gap-2 rounded-lg px-4 py-2 w-full shadow-sm bg-violet-600 text-white mb-8">Next <ArrowRight className="h-5 w-5"/></button>
           </Link>          
-          {/* Reviews Section */}
-          <ReviewSection spotId={spot.id} />
+          
 
           
         </div>
         {/* Desktop Booking Sidebar */}
-        <div className="desktop-sidebar  max-md:hidden">
+        <div className="desktop-sidebar">
           <div className="sticky top-20 bg-white rounded-2xl shadow-lg p-6">
             <h3 className="text-xl font-bold mb-6">Reserve your spot</h3>
             <div className="space-y-4">
@@ -324,7 +323,8 @@ const ParkingSpotProfile = () => {
             </div>
           </div>
         </div>
-                
+            {/* Reviews Section */}
+          <ReviewSection spotId={spot.id} />    
       </div>
     </div>
   );
