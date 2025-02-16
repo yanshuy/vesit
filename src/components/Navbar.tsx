@@ -35,7 +35,7 @@ const Navbar = () => {
         { icon: Map, label: "Map", path: "/map" },
         { icon: CreditCard, label: "Payments", path: "/my-payment-options" },
         { icon: Settings, label: "Settings", path: "/settings" },
-        { icon: WashingMachine, label: "GUI", path: "/gui" },
+        // { icon: WashingMachine, label: "GUI", path: "/gui" },
     ];
 
     const handleLogout = () => {
