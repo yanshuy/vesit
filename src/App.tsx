@@ -21,6 +21,9 @@ import MyBookings from "./pages/MyBookings";
 import Map from "./components/Map";
 import UserProfile from "./pages/UserProfile";
 import MyCurrentBooking from "./pages/MyCurrentBooking";
+import { QrReader } from "react-qr-reader";
+import QRScanner from "./components/QRScanner";
+import QRCodePage from "./components/GeneratedQr";
 
 export const BASE_URL =
     // "https://vesit-asb3b4e7dye8d0ck.canadacentral-01.azurewebsites.net";
@@ -39,6 +42,7 @@ function App() {
                         </AuthProvider>
                     }
                 />
+                <Route path="/gen_qr" element={<QRCodePage />}></Route>
                 <Route path="/gui">
                     <Route index element={<GUI />}></Route>
                     <Route
@@ -48,6 +52,10 @@ function App() {
                     <Route
                         path="/gui/payment"
                         element={<PaymentForm />}
+                    ></Route>
+                    <Route
+                        path="/gui/qr-reader"
+                        element={<QRScanner />}
                     ></Route>
                 </Route>
                 <Route path="/pp" element={<ParkingModel />}></Route>
@@ -79,7 +87,10 @@ function App() {
                         element={<ParkingLotMap />}
                     ></Route>
                     <Route path="/my-profile" element={<UserProfile />} />
-                    <Route path="/my-current-booking" element={<MyCurrentBooking />} />
+                    <Route
+                        path="/my-current-booking"
+                        element={<MyCurrentBooking />}
+                    />
                     <Route path="/my-bookings" element={<MyBookings />} />
                     <Route
                         path="/my-payment-options"
