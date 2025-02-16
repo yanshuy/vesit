@@ -352,14 +352,15 @@ const ParkingSpotSearch = () => {
 
     return (
         <div className="relative h-screen w-full">
-            <ArrowLeft
-                className="relative top-16 left-2 z-10 h-12 w-12 cursor-pointer rounded-full bg-gray-50 p-2"
-                onClick={() => navigate(-1)}
-            />
+           
 
             <div className="map">
+               <ArrowLeft
+                className="relative top-9 left-4 z-10 h-12 w-12 cursor-pointer rounded-full bg-gray-50 p-2"
+                onClick={() => navigate(-1)}
+            />
                 {/* Search Bar */}
-                <div className="absolute top-16 right-0 left-0 z-10 px-6 md:left-20">
+                <div className="absolute top-8 right-0 left-16 z-10 px-6 md:left-20">
                     <div className="flex w-full max-w-md items-center justify-start rounded-full bg-white p-2 shadow-lg">
                         <div className="pr-2 pl-3">
                             <Search className="text-gray-500" size={20} />
@@ -407,8 +408,8 @@ const ParkingSpotSearch = () => {
                             minHeight={100}
                             maxHeight={window.innerHeight * 0.9}
                         >
-                            <div className="space-y-4 px-4">
-                                <div className="sticky top-0 z-50 bg-white py-2 font-semibold">
+                            <div className="space-y-4 px-4 relative">
+                                <div className="sticky -top-8 z-50 bg-white py-2 px-4 font-semibold">
                                     Nearby Parking Spots ({nearbySpots.length})
                                 </div>
                                 {nearbySpots.map((spot, index) => (
