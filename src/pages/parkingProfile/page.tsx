@@ -3,6 +3,7 @@ import { Star, MapPin, Clock, Shield, ArrowLeft, Calendar, ArrowRight } from "lu
 import ReviewSection from "./ReviewSection";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import EmbeddedModelModal from "../../components/3DParkingModal";
 
 const spot = {
   id: 1,
@@ -150,6 +151,7 @@ const ParkingSpotProfile = () => {
   const [endTime, setEndTime] = useState("");
   const [duration, setDuration] = useState("");
   const [totalPrice, setTotalPrice] = useState(0);
+  const [is3DModelOpen, setIs3DModelOpen] = useState(false);
 
   useEffect(() => {
     if (startTime && endTime) {
@@ -252,6 +254,32 @@ const ParkingSpotProfile = () => {
 
             <h2 className="text-xl font-semibold mb-4">Description</h2>
             <p className="text-gray-600 leading-relaxed">{spot.description}</p>
+
+            <button
+    onClick={() => setIs3DModelOpen(true)}
+    className="flex items-center text-violet-600 hover:text-violet-700 font-medium"
+  >
+    <span className="mr-2 mt-2">View 3D Model</span>
+    <svg
+      className="w-5 h-5 mt-1"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+      />
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+      />
+    </svg>
+  </button>
           </div>
 
 
@@ -326,6 +354,10 @@ const ParkingSpotProfile = () => {
             {/* Reviews Section */}
           <ReviewSection spotId={spot.id} />    
       </div>
+      <EmbeddedModelModal 
+  isOpen={is3DModelOpen} 
+  onClose={() => setIs3DModelOpen(false)} 
+/>
     </div>
   );
 };

@@ -1,6 +1,5 @@
-import React from "react";
+import React from 'react';
 
-// Generic Modal Component using Tailwind CSS
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -16,14 +15,16 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-lg p-4 max-w-[90%] max-h-[90%] overflow-y-auto relative"
+        className="bg-white rounded-lg p-4 w-full max-w-4xl max-h-[90vh] overflow-y-auto relative"
         onClick={(e) => e.stopPropagation()}
       >
         <button
-          className="absolute top-2 right-2 text-2xl text-gray-700 hover:text-gray-900"
           onClick={onClose}
+          className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
         >
-          &times;
+          <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          </svg>
         </button>
         {children}
       </div>
@@ -31,7 +32,6 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
   );
 };
 
-// EmbeddedModelModal Component that shows the Sketchfab embed
 interface EmbeddedModelModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -40,51 +40,17 @@ interface EmbeddedModelModalProps {
 const EmbeddedModelModal: React.FC<EmbeddedModelModalProps> = ({ isOpen, onClose }) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <div className="sketchfab-embed-wrapper">
+      <div className="w-full h-full">
         <iframe
-          title="Parking Lot- Blender Baked Lighting GLTF, AR/VR"
-          frameBorder="0"
+          className="w-full h-full"
+          src="https://sketchfab.com/models/03ddfce6bd90418caea4c83c30d24cf3/embed?autostart=1&ui_infos=0&ui_watermark=0&ui_help=0&ui_settings=0&ui_inspector=0&ui_annotations=0&ui_stop=0&ui_theatre=0"
+          title="3D Parking Model"
           allowFullScreen
-          mozallowfullscreen="true"
-          webkitallowfullscreen="true"
-          allow="autoplay; fullscreen; xr-spatial-tracking"
-          xr-spatial-tracking
-          execution-while-out-of-viewport
-          execution-while-not-rendered
-          web-share
-          src="https://sketchfab.com/models/03ddfce6bd90418caea4c83c30d24cf3/embed"
-          className="w-[640px] h-[480px]"
-        ></iframe>
-        <p className="text-sm text-gray-600 font-normal my-2">
-          <a
-            href="https://sketchfab.com/3d-models/parking-lot-blender-baked-lighting-gltf-arvr-03ddfce6bd90418caea4c83c30d24cf3?utm_medium=embed&utm_campaign=share-popup&utm_content=03ddfce6bd90418caea4c83c30d24cf3"
-            target="_blank"
-            rel="nofollow"
-            className="font-bold text-blue-500"
-          >
-            Parking Lot- Blender Baked Lighting GLTF, AR/VR
-          </a>{" "}
-          by{" "}
-          <a
-            href="https://sketchfab.com/rakibtonoy?utm_medium=embed&utm_campaign=share-popup&utm_content=03ddfce6bd90418caea4c83c30d24cf3"
-            target="_blank"
-            rel="nofollow"
-            className="font-bold text-blue-500"
-          >
-            Rakib Hossain
-          </a>{" "}
-          on{" "}
-          <a
-            href="https://sketchfab.com?utm_medium=embed&utm_campaign=share-popup&utm_content=03ddfce6bd90418caea4c83c30d24cf3"
-            target="_blank"
-            rel="nofollow"
-            className="font-bold text-blue-500"
-          >
-            Sketchfab
-          </a>
-        </p>
+          allow="autoplay; fullscreen"
+          style={{ border: 0 }}
+        />
       </div>
-    </Modal>
+      </Modal>
   );
 };
 

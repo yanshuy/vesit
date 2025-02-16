@@ -60,7 +60,7 @@ function App() {
                 <Route path="/" element={<MainLayout />}>
                     <Route index element={<Home />} />
                     <Route path="/calendar" element={<CalendarPage />} />
-                    <Route path="/map" element={<Map onlyMap={false} />} />
+                    <Route path="/map" element={<ParkingSpotSearch />} />
                     <Route path="/events/:id" element={<EventPage />} />
                     <Route
                         path="/parking-spots"

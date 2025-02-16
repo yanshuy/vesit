@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect, useRef, useCallback } from "react";
 import { GoogleMap, useLoadScript, Autocomplete, Marker } from "@react-google-maps/api";
 import { ArrowLeft, Search } from "lucide-react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Drawer from "../../assets/Drawer";
 import ParkingSpotCard from "../../components/ParkingSpotCard";
 
@@ -53,7 +53,7 @@ const PARKING_SPOTS = [
   },
   {
     name: "MCGM Parking Lot Andheri",
-    image: "/placeholder.svg?height=200&width=400",
+    image: "https://raicdn.nl/cdn-cgi/image/width=3840,quality=75,format=auto,sharpen=1/https://edge.sitecorecloud.io/raiamsterda13f7-raidigitalpdb6c-productionf3f5-ef30/media/project/rai-amsterdam-xmc/intertraffic/intertraffic/news/2022/9/parkingshape1-550-x-300-px.png",
     distance: "Varies",
     time: "Varies",
     rating: 3.9,
@@ -249,14 +249,37 @@ const [searchLocation, setSearchLocation] = useState(null);
       geocoder.geocode({ address: initialSearch }, (results, status) => {
         if (status === "OK" && results?.[0]) {
           const location = results[0].geometry.location;
-          const newCenter = {
+          const newLocation = {
             lat: location.lat(),
             lng: location.lng(),
           };
-          setCenter(newCenter);
-          setMarker(newCenter);
+          
+          // Update center and marker
+          setCenter(newLocation);
+          setMarker(newLocation);
+          
+          // Calculate distances and update drawer
+          const spotsWithDistance = PARKING_SPOTS.map(spot => ({
+            ...spot,
+            distance: calculateDistance(
+              newLocation.lat,
+              newLocation.lng,
+              spot.coordinates.lat,
+              spot.coordinates.lng
+            ).toFixed(1)
+          }));
+  
+          // Sort spots by distance
+          const sortedSpots = spotsWithDistance.sort((a, b) => 
+            parseFloat(a.distance) - parseFloat(b.distance)
+          );
+          
+          // Update spots and open drawer
+          setNearbySpots(sortedSpots);
+          setIsDrawerOpen(true);
+  
           if (mapRef.current) {
-            mapRef.current.panTo(newCenter);
+            mapRef.current.panTo(newLocation);
           }
         }
       });
@@ -333,12 +356,14 @@ const [searchLocation, setSearchLocation] = useState(null);
         }}
         className="cursor-pointer hover:bg-gray-50 transition-colors"
       >
+        <Link to={`/parking-spots/1`}>
         <ParkingSpotCard
           {...spot}
           distance={`${spot.distance}km away`}
           time={`${Math.round(spot.distance * 2)} mins`}
           price={`₹${Math.round(spot.distance * 10)}/hr`}
         />
+        </Link>
       </div>
     ))}
   </div>
