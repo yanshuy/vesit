@@ -203,8 +203,8 @@ export default function ParkingLotMap() {
 
     return (
         <>
-        <ArrowLeft className="absolute top-[6.5rem] left-6 h-10 w-10 z-10 rounded-full bg-gray-100 p-2" onClick={() => navigate(-1)} />
-        <div className="relative mx-auto max-w-6xl space-y-6 p-6">
+        <ArrowLeft className="absolute top-[4rem] left-10 h-10 w-10 z-10 rounded-full bg-gray-100 p-2" onClick={() => navigate(-1)} />
+        <div className="relative mx-auto max-w-6xl space-y-6 p-6 touch-none">
             <div>
                 <h1 className="text-3xl font-bold text-gray-900">
                     Parking Lot

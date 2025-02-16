@@ -1,6 +1,7 @@
 import { useState } from "react";
+import { BASE_URL } from "../App";
 
-const IncreaseParkingDuration = ({ parkingId } = {parkingId: 2}) => {
+const IncreaseParkingDuration = ({ parkingId } = {parkingId: 3}) => {
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -14,17 +15,23 @@ const IncreaseParkingDuration = ({ parkingId } = {parkingId: 2}) => {
       setError("Please enter a valid duration.");
       return;
     }
+    const data = await response.json();
+    const currentEndTime = new Date(data.end_time); // Assuming API returns ISO 8601 format
+
+    // Add the new duration
+    const updatedEndTime = new Date(currentEndTime.getTime() + totalMinutes * 60000).toISOString();
+
 
     setLoading(true);
     setError(null);
     
     try {
-      const response = await fetch(`/api/parking/${parkingId}`, {
+      const response = await fetch(`${BASE_URL}/api/bookings/booking-slots/${parkingId}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ duration: totalMinutes }),
+        body: JSON.stringify({ end_time: updatedEndTime }),
       });
 
       if (!response.ok) {
