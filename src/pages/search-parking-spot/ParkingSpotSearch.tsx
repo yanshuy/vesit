@@ -1,8 +1,9 @@
 import React, { useState, useMemo, useEffect, useRef, useCallback } from "react";
 import { GoogleMap, useLoadScript, Autocomplete, Marker } from "@react-google-maps/api";
-import { Search } from "lucide-react";
+import { ArrowLeft, Search } from "lucide-react";
 import Drawer from "../../assets/Drawer";
 import ParkingSpotCard from "../../components/ParkingSpotCard";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -125,6 +126,7 @@ const ParkingSpotSearch = () => {
   const [center, setCenter] = useState({ lat: 18.567, lng: 72.789 });
   const [marker, setMarker] = useState(null);
   const [isOpen, setIsOpen] = useState(true);
+  const navigate = useNavigate()
   
 
   const mycenter = useMemo(() => center, [center]);
@@ -211,9 +213,10 @@ const ParkingSpotSearch = () => {
 
   return (
     <div className="h-screen w-full relative">
+      <ArrowLeft className="relative top-7 left-2 h-12 w-12 z-10  p-2 rounded-full bg-gray-50" onClick={() => navigate(-1)} />
       <div className="map">
         {/* Search Bar */}
-      <div className="absolute top-5 left-0 right-0 px-6 z-10">
+      <div className="absolute top-5 left-16 md:left-20 right-0 px-6 z-10">
         <div className="flex items-center justify-start bg-white rounded-full shadow-lg p-2 w-full max-w-md">
           <div className="pl-3 pr-2">
             <Search className="text-gray-500" size={20} />

@@ -1,7 +1,8 @@
 // ParkingSpotProfile.tsx
-import { Star, MapPin, Clock, Shield, ArrowLeft, Calendar } from "lucide-react";
+import { Star, MapPin, Clock, Shield, ArrowLeft, Calendar, ArrowRight } from "lucide-react";
 import ReviewSection from "./ReviewSection";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 const spot = {
   id: 1,
@@ -145,6 +146,37 @@ const spot = {
 const ParkingSpotProfile = () => {
 
   const navigate =useNavigate()
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
+  const [duration, setDuration] = useState("");
+  const [totalPrice, setTotalPrice] = useState(0);
+
+  useEffect(() => {
+    if (startTime && endTime) {
+      const start = new Date(`2024-01-01 ${startTime}`);
+      const end = new Date(`2024-01-01 ${endTime}`);
+      const diffMs = end.getTime() - start.getTime();
+      
+      // Calculate hours and minutes
+      const hours = Math.floor(diffMs / (1000 * 60 * 60));
+      const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+      
+      // Format duration string
+      let durationStr = "";
+      if (hours > 0) {
+        durationStr += `${hours} hour${hours > 1 ? 's' : ''}`;
+      }
+      if (minutes > 0) {
+        durationStr += `${hours > 0 ? ' ' : ''}${minutes} min${minutes > 1 ? 's' : ''}`;
+      }
+      setDuration(durationStr);
+      
+      // Calculate price (assuming ₹100 per hour base rate)
+      const baseRate = 100; // ₹100 per hour
+      const totalHours = diffMs / (1000 * 60 * 60);
+      setTotalPrice(baseRate * totalHours);
+    }
+  }, [startTime, endTime]);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -153,9 +185,9 @@ const ParkingSpotProfile = () => {
         Back to results
       </button>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {/* Main Content */}
-        <div className="lg:col-span-2">
+        <div className="md:col-span-2">
           {/* Image Gallery */}
           <div className="grid grid-cols-2 gap-4 mb-8">
             <div className="col-span-2 h-96 rounded-2xl overflow-hidden">
@@ -221,61 +253,20 @@ const ParkingSpotProfile = () => {
             <h2 className="text-xl font-semibold mb-4">Description</h2>
             <p className="text-gray-600 leading-relaxed">{spot.description}</p>
           </div>
-          <div className="max-md:block hidden mb-8">
-            <div className="sticky top-8 bg-white rounded-2xl shadow p-6">
-              <h3 className="text-xl font-bold mb-6">Reserve your spot</h3>
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium mb-2">Date</label>
-                  <div className="relative">
-                    <input
-                      type="date"
-                      className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-primary-500"
-                    />
-                    <Calendar className="w-5 h-5 text-gray-400 absolute right-3 top-3.5" />
-                  </div>
-                </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium mb-2">
-                      Start time
-                    </label>
-                    <input
-                      type="time"
-                      className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-primary-500"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-2">
-                      End time
-                    </label>
-                    <input
-                      type="time"
-                      className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-primary-500"
-                    />
-                  </div>
-                </div>
 
-                <div className="pt-4">
-                  <button className="w-full bg-primary-600 hover:bg-black text-black py-4 rounded-xl font-semibold transition-colors">
-                    Reserve now - {spot.price}
-                  </button>
-                </div>
-
-                <p className="text-center text-sm text-gray-500 mt-4">
-                  Free cancellation up to 24h before arrival
-                </p>
-              </div>
-            </div>
-          </div>
+          {/* Mobile Booking Section */}
+          <Link to={'/parking-spots/'+spot.id+'/selecttime'}>
+            <button className="md:hidden flex justify-center items-center gap-2 rounded-lg px-4 py-2 w-full shadow-sm bg-violet-600 text-white mb-8">Next <ArrowRight className="h-5 w-5"/></button>
+          </Link>          
           {/* Reviews Section */}
           <ReviewSection spotId={spot.id} />
-        </div>
 
-        {/* Booking Sidebar */}
-        <div className="lg:col-span-1 max-md:hidden">
-          <div className="sticky top-8 bg-white rounded-2xl shadow-lg p-6">
+          
+        </div>
+        {/* Desktop Booking Sidebar */}
+        <div className="desktop-sidebar  max-md:hidden">
+          <div className="sticky top-20 bg-white rounded-2xl shadow-lg p-6">
             <h3 className="text-xl font-bold mb-6">Reserve your spot</h3>
             <div className="space-y-4">
               <div>
@@ -285,7 +276,6 @@ const ParkingSpotProfile = () => {
                     type="date"
                     className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-primary-500"
                   />
-                  <Calendar className="w-5 h-5 text-gray-400 absolute right-3 top-3.5" />
                 </div>
               </div>
 
@@ -296,6 +286,8 @@ const ParkingSpotProfile = () => {
                   </label>
                   <input
                     type="time"
+                    value={startTime}
+                    onChange={(e) => setStartTime(e.target.value)}
                     className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-primary-500"
                   />
                 </div>
@@ -305,14 +297,24 @@ const ParkingSpotProfile = () => {
                   </label>
                   <input
                     type="time"
+                    value={endTime}
+                    onChange={(e) => setEndTime(e.target.value)}
                     className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-primary-500"
                   />
                 </div>
               </div>
 
+              <div className="bg-gray-50 p-4 rounded-lg mb-0">
+                <p className="text text-gray-600">Duration: {duration}</p>
+                <p className="font-semibold">Total: {totalPrice === 0 ? '' : '₹'+totalPrice.toFixed(2)}</p>
+              </div>
+
               <div className="pt-4">
-                <button className="w-full bg-primary-600 hover:bg-primary-700 text-white py-4 rounded-xl font-semibold transition-colors">
-                  Reserve now - {spot.price}
+                <button 
+                  onClick={() => navigate('/parking-spots/1/slotmap')}
+                  className="w-full bg-violet-600 hover:bg-primary-700 text-white py-4 rounded-xl font-semibold transition-colors"
+                >
+                  Choose Slot
                 </button>
               </div>
 
@@ -322,6 +324,7 @@ const ParkingSpotProfile = () => {
             </div>
           </div>
         </div>
+                
       </div>
     </div>
   );

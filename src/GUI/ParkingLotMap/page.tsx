@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { ZoomIn, ZoomOut, Maximize2 } from "lucide-react";
+import { ZoomIn, ZoomOut, Maximize2, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const CarSVG = ({ isSelected, onClick, x, y, isOccupied }) => (
@@ -202,6 +202,8 @@ export default function ParkingLotMap() {
     };
 
     return (
+        <>
+        <ArrowLeft className="absolute top-[6.5rem] left-6 h-10 w-10 z-10 rounded-full bg-gray-100 p-2" onClick={() => navigate(-1)} />
         <div className="relative mx-auto max-w-6xl space-y-6 p-6">
             <div>
                 <h1 className="text-3xl font-bold text-gray-900">
@@ -255,5 +257,6 @@ export default function ParkingLotMap() {
                 </div>
             </div>
         </div>
+        </>
     );
 }

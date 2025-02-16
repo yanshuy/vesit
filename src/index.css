@@ -33,7 +33,7 @@
 }
 
 html {
-    touch-action: none;
+    /* touch-action: none; */
 }
 
 .dark {

@@ -1,5 +1,4 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Map from "./components/Map";
 import MainLayout from "./layouts/MainLayout";
 import EventPage from "./pages/events/page";
 import CalendarPage from "./pages/calendar/page";
@@ -19,6 +18,9 @@ import MyPaymentOptions from "./pages/MyPaymentOptions";
 import ParkingLotMap from "./GUI/ParkingLotMap/page";
 import GUI from "./GUI/page";
 import MyBookings from "./pages/MyBookings";
+import Map from "./components/Map";
+import UserProfile from "./pages/UserProfile";
+import MyCurrentBooking from "./pages/MyCurrentBooking";
 
 export const BASE_URL =
     // "https://vesit-asb3b4e7dye8d0ck.canadacentral-01.azurewebsites.net";
@@ -51,15 +53,15 @@ function App() {
                 <Route path="/pp" element={<ParkingModel />}></Route>
                 <Route path="/gcal" element={<GoogleCalendarIntegration />} />
                 <Route path="/pay" element={<PaymentForm />} />
+                <Route
+                    path="/searchparkingspot"
+                    element={<ParkingSpotSearch />}
+                />
                 <Route path="/" element={<MainLayout />}>
                     <Route index element={<Home />} />
                     <Route path="/calendar" element={<CalendarPage />} />
                     <Route path="/map" element={<Map onlyMap={false} />} />
                     <Route path="/events/:id" element={<EventPage />} />
-                    <Route
-                        path="/searchparkingspot"
-                        element={<ParkingSpotSearch />}
-                    />
                     <Route
                         path="/parking-spots"
                         element={<ParkingSpotList />}
@@ -72,7 +74,13 @@ function App() {
                         path="/parking-spots/:id/selecttime"
                         element={<SelectTimeSlot />}
                     />
-                    <Route path="/my-bookings" element={<SelectTimeSlot />} />
+                    <Route
+                        path="/parking-spots/:id/slotmap"
+                        element={<ParkingLotMap />}
+                    ></Route>
+                    <Route path="/my-profile" element={<UserProfile />} />
+                    <Route path="/my-current-booking" element={<MyCurrentBooking />} />
+                    <Route path="/my-bookings" element={<MyBookings />} />
                     <Route
                         path="/my-payment-options"
                         element={<MyPaymentOptions />}

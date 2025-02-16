@@ -1,12 +1,141 @@
-import { useState } from "react";
-import { ChevronDown, MoreHorizontal } from "lucide-react";
+import { useState, useEffect } from "react";
+import { ArrowLeft, ChevronDown, MoreHorizontal } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import { stripePromise } from '../lib/stripeconfig';
+import { BASE_URL } from "../App";
+
+const CheckoutForm = () => {
+    const stripe = useStripe();
+    const elements = useElements();
+    const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        if (!stripe || !elements) return;
+
+        setLoading(true);
+        setError(null);
+
+        try {
+            const { error: paymentError } = await stripe.confirmPayment({
+                elements,
+                confirmParams: {
+                    return_url: `${window.location.origin}/payment-success`,
+                    payment_method_data: {
+                        billing_details: {
+                            name: document.querySelector('input[placeholder="Full name"]').value,
+                            address: {
+                                country: document.querySelector('select').value,
+                                line1: document.querySelector('input[placeholder="Street address"]').value,
+                            },
+                        },
+                    },
+                },
+            });
+
+            if (paymentError) {
+                setError(paymentError.message);
+            }
+        } catch (err) {
+            setError('Payment failed');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <PaymentElement 
+        className="w-full rounded-xl border border-gray-200 p-4"
+        options={{
+          layout: {
+            type: 'tabs',
+            defaultCollapsed: false,
+          },
+        }}
+      />
+      {error && (
+        <div className="text-red-500 text-sm mt-2">{error}</div>
+      )}
+      <button 
+        type="submit"
+        disabled={!stripe || loading}
+        className="w-full rounded-xl bg-[#00A0FF] py-3 text-white transition-colors hover:bg-[#0090E6] disabled:bg-gray-400 mt-4"
+      >
+        {loading ? 'Processing...' : 'Pay Now'}
+      </button>
+    </form>
+  );
+};
+
 
 const PaymentForm = () => {
     const [selectedPayment, setSelectedPayment] = useState("card");
+    const [clientSecret, setClientSecret] = useState("");
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const createPaymentIntent = async () => {
+            try {
+                const response = await fetch(`${BASE_URL}/api/create-payment-intent`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ 
+                        amount: 1000,  // Amount in cents
+                        currency: 'inr' 
+                    }),
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const text = await response.text(); // Get response as text first
+                console.log('API Response:', text); // Log the raw response
+
+                try {
+                    const data = JSON.parse(text); // Try to parse as JSON
+                    if (data.clientSecret) {
+                        setClientSecret(data.clientSecret);
+                    } else {
+                        throw new Error('No clientSecret in response');
+                    }
+                } catch (parseError) {
+                    console.error('JSON Parse Error:', parseError);
+                    throw new Error('Invalid JSON response from server');
+                }
+            } catch (err) {
+                console.error('Payment Intent Error:', err);
+                // You might want to show an error message to the user here
+            }
+        };
+
+        createPaymentIntent();
+    }, []);
+
+    const appearance = {
+        theme: 'stripe',
+        variables: {
+            colorPrimary: '#00A0FF',
+            borderRadius: '12px',
+        },
+    };
+
+    const options = {
+        clientSecret,
+        appearance,
+    };
 
     return (
-        <div className="flex min-h-screen items-center justify-center bg-[#EEF6FF] p-4">
-            <div className="w-full max-w-md">
+        <>
+        {clientSecret ? (
+            <Elements stripe={stripePromise} options={options}>
+                <ArrowLeft className="absolute top-[6.8rem] left-[21.5rem] h-9 w-9 z-10" onClick={() => navigate(-1)} />
+                <div className="flex min-h-screen items-center justify-center bg-[#EEF6FF] p-4">
+                <div className="w-full max-w-md">
                 <div className="space-y-4">
                     {/* Apple Pay Button */}
                     <button className="flex w-full items-center justify-center space-x-2 rounded-xl bg-black py-3 text-white">
@@ -119,64 +248,24 @@ const PaymentForm = () => {
                                 <MoreHorizontal className="h-5 w-5 text-gray-400" />
                             </button>
                         </div>
-
-                        {/* Card Details */}
-                        {selectedPayment === "card" && (
-                            <div className="space-y-4">
-                                <div>
-                                    <label className="mb-2 block text-sm text-[#0066CC]">
-                                        Card number
-                                    </label>
-                                    <div className="relative">
-                                        <input
-                                            type="text"
-                                            className="w-full rounded-xl border border-gray-200 px-4 py-3 focus:border-blue-400 focus:outline-none"
-                                            placeholder="1234 1234 1234 1234"
-                                        />
-                                        <div className="absolute top-1/2 right-4 flex -translate-y-1/2 transform space-x-1">
-                                            <img
-                                                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-zTiF2wJb0D16Hd8rEh7RXjzV1bUmAO.png"
-                                                alt="Payment methods"
-                                                className="h-4"
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <label className="mb-2 block text-sm text-[#0066CC]">
-                                            Expiration date
-                                        </label>
-                                        <input
-                                            type="text"
-                                            className="w-full rounded-xl border border-gray-200 px-4 py-3 focus:border-blue-400 focus:outline-none"
-                                            placeholder="MM / YY"
-                                        />
-                                    </div>
-                                    <div>
-                                        <label className="mb-2 block text-sm text-[#0066CC]">
-                                            Security code
-                                        </label>
-                                        <input
-                                            type="text"
-                                            className="w-full rounded-xl border border-gray-200 px-4 py-3 focus:border-blue-400 focus:outline-none"
-                                            placeholder="CVV"
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                        )}
-
-                        {/* Submit Button */}
-                        <button className="w-full rounded-xl bg-[#00A0FF] py-3 text-white transition-colors hover:bg-[#0090E6]">
-                            Submit order
-                        </button>
                     </div>
                 </div>
+                {selectedPayment === "card" && (
+                    <div className="space-y-4 mt-4">
+                    <CheckoutForm />
+                    </div>
+                )}
             </div>
-        </div>
+                </div>
+            </Elements>
+        ) : (
+            <div className="flex min-h-screen items-center justify-center bg-[#EEF6FF]">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+            </div>
+        )}
+        </>
     );
 };
 
 export default PaymentForm;
+
