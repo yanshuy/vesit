@@ -286,6 +286,44 @@ const [searchLocation, setSearchLocation] = useState(null);
     }
   }, [isLoaded, initialSearch]);
 
+  useEffect(() => {
+    if (isLoaded && location.state?.fromEvent) {
+      const { coordinates, searchQuery } = location.state;
+      
+      if (coordinates && searchQuery) {
+        setCenter(coordinates);
+        setMarker(coordinates);
+        
+        if (searchInputRef.current) {
+          searchInputRef.current.value = searchQuery;
+        }
+
+        const spotsWithDistance = PARKING_SPOTS.map(spot => ({
+          ...spot,
+          distance: calculateDistance(
+            coordinates.lat,
+            coordinates.lng,
+            spot.coordinates.lat,
+            spot.coordinates.lng
+          ).toFixed(1)
+        }));
+
+        const sortedSpots = spotsWithDistance.sort((a, b) => 
+          parseFloat(a.distance) - parseFloat(b.distance)
+        );
+        
+        setNearbySpots(sortedSpots);
+        setIsDrawerOpen(true);
+
+        if (mapRef.current) {
+          mapRef.current.panTo(coordinates);
+          mapRef.current.setZoom(16);
+        }
+      }
+    }
+  }, [isLoaded]);
+
+
   if (!isLoaded) return <div className="h-screen flex items-center justify-center">Loading maps...</div>;
   if (loadError) return <div className="h-screen flex items-center justify-center">Error loading maps</div>;
 
