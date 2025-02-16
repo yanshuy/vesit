@@ -9,7 +9,7 @@ import ParkingSpotCard from "../../components/ParkingSpotCard";
 const PARKING_SPOTS = [
   {
     name: "Trios Fashion Mall Parking",
-    image: "/placeholder.svg?height=200&width=400",
+    image: "https://cdn11.bigcommerce.com/s-64cbb/product_images/uploaded_images/tgtechnicalservices-246300-parking-garage-safer-blogbanner1.jpg",
     distance: "Varies",
     time: "Varies",
     rating: 4.2,
@@ -20,7 +20,7 @@ const PARKING_SPOTS = [
   },
   {
     name: "Runwal Greens Parking",
-    image: "/placeholder.svg?height=200&width=400",
+    image: "https://www.adanirealty.com/-/media/project/realty/blogs/what-is-stilt-parking-meaning-rules-how-it-works.ashx",
     distance: "Varies",
     time: "Varies",
     rating: 4.5,
@@ -31,7 +31,7 @@ const PARKING_SPOTS = [
   },
   {
     name: "Indiabulls Finance Center Parking",
-    image: "/placeholder.svg?height=200&width=400",
+    image: "https://raicdn.nl/cdn-cgi/image/width=3840,quality=75,format=auto,sharpen=1/https://edge.sitecorecloud.io/raiamsterda13f7-raidigitalpdb6c-productionf3f5-ef30/media/project/rai-amsterdam-xmc/intertraffic/intertraffic/news/2022/9/parkingshape1-550-x-300-px.png",
     distance: "Varies",
     time: "Varies",
     rating: 4.3,
@@ -42,7 +42,7 @@ const PARKING_SPOTS = [
   },
   {
     name: "Kalpataru Avana Parking",
-    image: "/placeholder.svg?height=200&width=400",
+    image: "https://www.99acres.com/microsite/articles/files/2018/07/car-parking.jpg",
     distance: "Varies",
     time: "Varies",
     rating: 4.1,
@@ -64,7 +64,7 @@ const PARKING_SPOTS = [
   },
   {
     name: "Boomerang Building Parking",
-    image: "/placeholder.svg?height=200&width=400",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_wSea4YuTq1WQhGOLBTPRps6qIlRzw1GlSA&s",
     distance: "Varies",
     time: "Varies",
     rating: 4.0,
@@ -75,7 +75,7 @@ const PARKING_SPOTS = [
   },
   {
     name: "Lodha The World Towers Parking",
-    image: "/placeholder.svg?height=200&width=400",
+    image: "https://www.glamox.com/globalassets/pbs/application-guide/industry/parking-garage-kremmergarden-parkering.jpg?w=1200&h=630&mode=crop",
     distance: "Varies",
     time: "Varies",
     rating: 4.7,
@@ -86,7 +86,7 @@ const PARKING_SPOTS = [
   },
   {
     name: "Runwal Cumballa Hill Parking",
-    image: "/placeholder.svg?height=200&width=400",
+    image: "https://parkingtelecom.com/en/wp-content/uploads/sites/2/2020/03/off-street-parking-management-problem-1-min-6000x3000.jpg",
     distance: "Varies",
     time: "Varies",
     rating: 4.4,
@@ -97,7 +97,7 @@ const PARKING_SPOTS = [
   },
   {
     name: "MCGM Parking Lot Powai",
-    image: "/placeholder.svg?height=200&width=400",
+    image: "https://parkingtelecom.com/en/wp-content/uploads/sites/2/2020/03/off-street-parking-management-problem-1-min-6000x3000.jpg",
     distance: "Varies",
     time: "Varies",
     rating: 3.8,
@@ -108,7 +108,7 @@ const PARKING_SPOTS = [
   },
   {
     name: "The Address by Wadhwa Parking",
-    image: "/placeholder.svg?height=200&width=400",
+    image: "https://www.nobrokerhood.com/blog/wp-content/uploads/2024/08/shutterstock_2350654213-1-1568x706.jpg",
     distance: "Varies",
     time: "Varies",
     rating: 4.6,
