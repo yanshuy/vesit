@@ -1,78 +1,81 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 
 interface CountdownTimerProps {
-  endTime: string  // ISO string format
-  startTime: string  // ISO string format
+    endTime: string; // ISO string format
+    startTime: string; // ISO string format
 }
 
 export function CountdownTimer({ endTime, startTime }: CountdownTimerProps) {
-  const [timeLeft, setTimeLeft] = useState("")
-  const [isStarted, setIsStarted] = useState(false)
+    console.log("CountdownTimer mounted", endTime, startTime);
 
-  useEffect(() => {
-    const calculateTimeLeft = () => {
-      const now = Date.now()
-      const start = Date.parse(startTime)
-      const end = Date.parse(endTime)
-      console.log(now, start, end)
+    // Define a phase state to differentiate between before start, ongoing, and ended.
+    const [timeLeft, setTimeLeft] = useState("");
+    const [phase, setPhase] = useState<"before" | "ongoing" | "ended">(
+        "before",
+    );
 
-      // If before start time
-      if (now < start) {
-        return "Not started"
-      }
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            const now = new Date();
+            const start = new Date(startTime);
+            const end = new Date(endTime);
 
-      // If after end time
-      if (now > end) {
-        return "Expired"
-      }
+            console.log("now", now, "start", start, "end", end);
 
-      const difference = end - now
-      
-      // Calculate time units
-      const days = Math.floor(difference / (1000 * 60 * 60 * 24))
-      const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
-      const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60))
-      const seconds = Math.floor((difference % (1000 * 60)) / 1000)
+            if (now < start) {
+                // Before booking start: countdown until start time
+                setPhase("before");
+                const diff = start.getTime() - now.getTime();
+                const hours = Math.floor(diff / (1000 * 60 * 60));
+                const minutes = Math.floor(
+                    (diff % (1000 * 60 * 60)) / (1000 * 60),
+                );
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+                const formatted = [
+                    hours.toString().padStart(2, "0"),
+                    minutes.toString().padStart(2, "0"),
+                    seconds.toString().padStart(2, "0"),
+                ].join(":");
+                setTimeLeft(formatted);
+            } else if (now >= start && now < end) {
+                // Booking is ongoing: countdown until end time
+                setPhase("ongoing");
+                const diff = end.getTime() - now.getTime();
+                const hours = Math.floor(diff / (1000 * 60 * 60));
+                const minutes = Math.floor(
+                    (diff % (1000 * 60 * 60)) / (1000 * 60),
+                );
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+                const formatted = [
+                    hours.toString().padStart(2, "0"),
+                    minutes.toString().padStart(2, "0"),
+                    seconds.toString().padStart(2, "0"),
+                ].join(":");
+                setTimeLeft(formatted);
+            } else {
+                // Booking has ended
+                setPhase("ended");
+                setTimeLeft("00:00:00");
+                clearInterval(intervalId);
+            }
+        }, 1000);
 
-      // Format time string
-      if (days > 0) {
-        return `${days}d ${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`
-      }
+        return () => clearInterval(intervalId);
+    }, [startTime, endTime]);
 
-      return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`
-    }
+    console.log("CountdownTimer timeLeft", timeLeft);
 
-    // Check if booking has started
-    const checkIfStarted = () => {
-      const now = Date.now()
-      const start = Date.parse(startTime)
-      console.log(now, start, "bad", now >= start,  Date.parse(startTime).toLocaleString)
-      setIsStarted(now >= start)
-    }
-
-    // Initial calculations
-    checkIfStarted()
-    setTimeLeft(calculateTimeLeft())
-
-    // Update every second
-    const timer = setInterval(() => {
-      checkIfStarted()
-      setTimeLeft(calculateTimeLeft())
-    }, 1000)
-
-    // Cleanup interval on unmount
-    return () => clearInterval(timer)
-  }, [endTime, startTime])
-
-  return (
-    <div className="text-4xl font-bold font-mono tracking-wider">
-      {isStarted ? timeLeft : (
-        <div className="text-2xl text-yellow-600">
-          Booking starts soon
+    return (
+        <div className="font-mono text-4xl font-bold tracking-wider">
+            {phase === "before" && (
+                <div className="text-2xl text-yellow-600">
+                    Booking ends in {timeLeft}
+                </div>
+            )}
+            {phase === "ongoing" && timeLeft}
+            {phase === "ended" && "Booking ended"}
         </div>
-      )}
-    </div>
-  )
+    );
 }
