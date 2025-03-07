@@ -81,6 +81,7 @@ const handleSearch = (e: React.FormEvent) => {
                 onClick={handleLocationClick}
                 className="flex flex-col gap-2 hover:bg-white/10 rounded-lg p-3 transition-all duration-200 w-full"
                 >
+                
                 <div className="flex items-center justify-between gap-2">
                     <span className="text-sm text-gray-100">Your location</span>
                     <ChevronDown 
