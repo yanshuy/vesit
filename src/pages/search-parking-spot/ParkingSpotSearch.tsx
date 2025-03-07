@@ -343,12 +343,12 @@ const ParkingSpotSearch = () => {
                 Loading maps...
             </div>
         );
-    if (loadError)
-        return (
-            <div className="flex h-screen items-center justify-center">
-                Error loading maps
-            </div>
-        );
+    if (loadError) f;
+    return (
+        <div className="flex h-screen items-center justify-center">
+            Error loading maps
+        </div>
+    );
 
     return (
         <div className="relative h-screen w-full">

@@ -62,7 +62,7 @@ function App() {
                 <Route path="/extend/:id" element={<ExtendParkingForm />}></Route>
                 <Route path="/gcal" element={<GoogleCalendarIntegration />} />
                 <Route path="/pay" element={<PaymentForm />} />
-                <Route path="analysis" element={<ParkingAnalysis />} />
+                <Route path="/analysis" element={<ParkingAnalysis />} />
                 <Route
                     path="/searchparkingspot"
                     element={<ParkingSpotSearch />}

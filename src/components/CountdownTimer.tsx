@@ -8,7 +8,7 @@ interface CountdownTimerProps {
 }
 
 export function CountdownTimer({ endTime, startTime }: CountdownTimerProps) {
-    console.log("CountdownTimer mounted", endTime, startTime);
+    console.log("CountdownTimer mounted", startTime, endTime);
 
     // Define a phase state to differentiate between before start, ongoing, and ended.
     const [timeLeft, setTimeLeft] = useState("");
@@ -71,7 +71,7 @@ export function CountdownTimer({ endTime, startTime }: CountdownTimerProps) {
         <div className="font-mono text-4xl font-bold tracking-wider">
             {phase === "before" && (
                 <div className="text-2xl text-yellow-600">
-                    Booking ends in {timeLeft}
+                    Booking starts in {timeLeft}
                 </div>
             )}
             {phase === "ongoing" && timeLeft}
